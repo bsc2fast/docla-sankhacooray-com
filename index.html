@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+<title>Doctor Lanka — a faster way to book doctors on eChannelling</title>
+<meta name="description" content="Doctor Lanka is a free Chrome extension that puts a fast weekly calendar over Sri Lanka's eChannelling. Compare doctors, hospitals and times at a glance, then check out on the official site." />
+<link rel="canonical" href="https://bsc2fast.github.io/doctor-lanka-web/" />
+
+<!-- Open Graph (Facebook, LinkedIn, Slack, Discord, iMessage, WhatsApp, ...) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Doctor Lanka" />
+<meta property="og:title" content="Doctor Lanka — a faster way to book doctors on eChannelling" />
+<meta property="og:description" content="A free Chrome extension that puts a fast weekly calendar over Sri Lanka's eChannelling. Compare doctors, hospitals and times at a glance — then pay on the official site as usual." />
+<meta property="og:url" content="https://bsc2fast.github.io/doctor-lanka-web/" />
+<meta property="og:image" content="https://bsc2fast.github.io/doctor-lanka-web/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Doctor Lanka logo — a medical cross with a heartbeat line — beside the words 'A faster way to find & book doctors on eChannelling'." />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Doctor Lanka — a faster way to book doctors on eChannelling" />
+<meta name="twitter:description" content="A free Chrome extension that puts a fast weekly calendar over Sri Lanka's eChannelling. Compare doctors, hospitals and times at a glance — then pay on the official site." />
+<meta name="twitter:image" content="https://bsc2fast.github.io/doctor-lanka-web/assets/og-image.png" />
+<meta name="twitter:image:alt" content="Doctor Lanka — a faster way to find & book doctors on eChannelling." />
+
+<!-- Icons + PWA -->
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#0b1020" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Doctor Lanka" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --navy:#0b1020;
+    --navy-2:#141a2e;
+    --card:#141a2e;
+    --card-2:#182042;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.14);
+    --ink:#eef2fb;
+    --muted:#a7b0cc;
+    --muted-2:#7f89a8;
+    --blue:#7aa2ff;
+    --teal:#5cd2c1;
+    --amber:#fbbf24;
+    --red:#f87171;
+    --grad:linear-gradient(120deg,#7aa2ff 0%,#5cd2c1 100%);
+    --maxw:1080px;
+    --r:16px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(122,162,255,.16), transparent 60%),
+      radial-gradient(800px 520px at 92% 4%, rgba(92,210,193,.12), transparent 58%),
+      var(--navy);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  section{padding:74px 0}
+  h1,h2,h3{line-height:1.15;margin:0;letter-spacing:-.02em}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 16px
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;border-radius:2px;background:var(--grad)}
+  .lead{color:var(--muted);font-size:18px;max-width:62ch}
+
+  /* ---- header ---- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(12px);
+    background:rgba(11,16,32,.72);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.01em;font-size:17px;text-decoration:none}
+  .brand img{width:30px;height:30px;border-radius:8px}
+  .nav-links{display:flex;align-items:center;gap:26px}
+  .nav-links a{color:var(--muted);text-decoration:none;font-weight:500;font-size:14.5px}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;justify-content:center;
+    font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;
+    padding:12px 20px;border-radius:12px;border:1px solid transparent;
+    transition:box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .btn-primary{background:var(--grad);color:#08122b;box-shadow:0 8px 26px rgba(92,210,193,.22)}
+  .btn-primary:hover{box-shadow:0 12px 34px rgba(92,210,193,.34)}
+  .btn-ghost{border-color:var(--line-strong);color:var(--ink);background:rgba(255,255,255,.02)}
+  .btn-ghost:hover{border-color:var(--blue);background:rgba(122,162,255,.08)}
+  .btn-sm{padding:9px 16px;font-size:14px;border-radius:10px}
+  .nav .btn-sm{display:none}
+  @media(min-width:720px){.nav .btn-sm{display:inline-flex}}
+
+  /* ---- hero ---- */
+  .hero{padding-top:64px;padding-bottom:34px}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:44px;align-items:center}
+  @media(min-width:940px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:56px}}
+  .pill{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:7px 14px;border-radius:999px;border:1px solid var(--line-strong);
+    background:rgba(255,255,255,.03);color:var(--muted);font-size:13px;font-weight:600;margin-bottom:22px
+  }
+  .pill b{color:var(--teal)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(92,210,193,.16)}
+  h1.title{font-size:clamp(33px,5.4vw,54px);font-weight:800}
+  .hero p.lead{margin:20px 0 0;font-size:19px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+  .microcopy{margin-top:16px;color:var(--muted-2);font-size:13.5px;display:flex;align-items:center;gap:8px}
+  .microcopy svg{flex:none}
+
+  /* ---- hero mock (weekly calendar) ---- */
+  .mock{
+    border:1px solid var(--line-strong);border-radius:20px;overflow:hidden;
+    background:linear-gradient(180deg,#10162c,#0c1122);
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .mock-bar{display:flex;align-items:center;gap:8px;padding:12px 15px;border-bottom:1px solid var(--line)}
+  .mock-bar .tl{display:flex;gap:6px}
+  .mock-bar .tl i{width:11px;height:11px;border-radius:50%;background:#2a3352;display:block}
+  .mock-search{
+    margin-left:6px;flex:1;height:30px;border-radius:8px;border:1px solid var(--line);
+    background:#0d1226;display:flex;align-items:center;padding:0 12px;color:var(--muted-2);font-size:12.5px;gap:8px
+  }
+  .mock-chip{margin-left:auto;font-size:11px;font-weight:700;color:var(--teal);border:1px solid rgba(92,210,193,.3);padding:4px 9px;border-radius:999px;background:rgba(92,210,193,.08)}
+  .mock-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:14px}
+  .mock-day{display:flex;flex-direction:column;gap:6px}
+  .mock-day .d{font-size:10.5px;font-weight:700;color:var(--muted-2);text-align:center;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+  .slot{height:26px;border-radius:7px;border:1px solid var(--line);background:rgba(122,162,255,.06);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#c7d2f2}
+  .slot.free{background:rgba(92,210,193,.14);border-color:rgba(92,210,193,.4);color:#bff3ea}
+  .slot.pick{background:var(--grad);border-color:transparent;color:#08122b;box-shadow:0 6px 16px rgba(92,210,193,.3)}
+  .slot.full{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.22);color:#e79a9a;opacity:.65}
+  .slot.ghost{background:rgba(255,255,255,.02);color:transparent}
+  .mock-foot{display:flex;align-items:center;gap:16px;padding:11px 15px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted-2);flex-wrap:wrap}
+  .legend{display:inline-flex;align-items:center;gap:7px}
+  .legend .sw{width:11px;height:11px;border-radius:4px}
+
+  /* ---- generic card grids ---- */
+  .grid{display:grid;gap:18px}
+  .cols-2{grid-template-columns:1fr}
+  .cols-3{grid-template-columns:1fr}
+  @media(min-width:640px){.cols-2{grid-template-columns:1fr 1fr}.cols-3{grid-template-columns:1fr 1fr}}
+  @media(min-width:940px){.cols-3{grid-template-columns:1fr 1fr 1fr}}
+  .card{
+    border:1px solid var(--line);border-radius:var(--r);padding:24px;
+    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+    transition:border-color .18s ease, background .18s ease;
+  }
+  .card:hover{border-color:var(--line-strong);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
+  .ico{
+    width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px;
+    border:1px solid var(--line-strong);
+  }
+  .ico.pain{background:rgba(248,113,113,.10);color:var(--red);border-color:rgba(248,113,113,.22)}
+  .ico.gain{background:rgba(92,210,193,.12);color:var(--teal);border-color:rgba(92,210,193,.28)}
+  .card h3{font-size:17.5px;font-weight:700;margin-bottom:7px}
+  .card p{margin:0;color:var(--muted);font-size:15px}
+
+  .section-head{max-width:64ch;margin-bottom:38px}
+  .section-head h2{font-size:clamp(26px,3.6vw,36px);font-weight:800}
+  .section-head p{margin-top:14px}
+
+  /* ---- problem band ---- */
+  .band{
+    border:1px solid var(--line);border-radius:22px;
+    background:linear-gradient(180deg,rgba(122,162,255,.07),rgba(92,210,193,.03));
+    padding:38px;
+  }
+  @media(min-width:860px){.band{padding:46px}}
+  .band .stat-row{display:grid;grid-template-columns:1fr;gap:26px;margin-top:26px}
+  @media(min-width:720px){.band .stat-row{grid-template-columns:repeat(3,1fr)}}
+  .stat b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em}
+  .stat span{color:var(--muted);font-size:14.5px}
+
+  /* ---- steps ---- */
+  .steps{display:grid;gap:18px;grid-template-columns:1fr;counter-reset:s}
+  @media(min-width:860px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .step{position:relative;border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012))}
+  .step .n{
+    counter-increment:s;
+    width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+    font-weight:800;font-size:16px;color:#08122b;background:var(--grad);margin-bottom:16px
+  }
+  .step .n::before{content:counter(s)}
+  .step h3{font-size:18px;font-weight:700;margin-bottom:8px}
+  .step p{margin:0;color:var(--muted);font-size:15px}
+  .step-arrow{display:none}
+
+  /* ---- trust strip ---- */
+  .trust{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:720px){.trust{grid-template-columns:repeat(3,1fr)}}
+  .trust .t{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:18px 18px;background:rgba(255,255,255,.02)}
+  .trust .t svg{flex:none;margin-top:2px}
+  .trust .t b{display:block;font-size:15.5px}
+  .trust .t span{color:var(--muted);font-size:13.5px}
+
+  /* ---- CTA ---- */
+  .cta{
+    text-align:center;border:1px solid var(--line-strong);border-radius:24px;
+    background:
+      radial-gradient(600px 300px at 50% -20%, rgba(92,210,193,.18), transparent 60%),
+      linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+    padding:56px 26px;
+  }
+  .cta h2{font-size:clamp(26px,3.6vw,38px);font-weight:800}
+  .cta p{margin:14px auto 0;max-width:52ch;color:var(--muted)}
+  .cta .hero-cta{justify-content:center}
+  .install-note{margin-top:18px;font-size:13px;color:var(--muted-2)}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted-2);font-size:13.5px}
+  .foot-in{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .foot-in a{color:var(--muted);text-decoration:none}
+  .foot-in a:hover{color:var(--ink)}
+  .disc{margin-top:16px;max-width:70ch;color:var(--muted-2);font-size:12px;line-height:1.5}
+
+  .chk{color:var(--teal)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <img src="assets/logo.svg" alt="Doctor Lanka logo" />
+      <span>Doctor&nbsp;Lanka</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#problem">The problem</a>
+      <a href="#solution">What you get</a>
+      <a href="#how">How it works</a>
+      <a class="btn btn-primary btn-sm" href="#get">Get the extension</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill"><span class="dot"></span> Free Chrome extension · works with <b>echannelling.com</b></span>
+      <h1 class="title">Book Sri Lankan doctors <span class="grad-text">in a fraction of the clicks</span>.</h1>
+      <p class="lead">Doctor Lanka lays a fast, weekly calendar over eChannelling. See a doctor's whole week at a glance, compare hospitals and times, then finish on the official site — the way you always have.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#get">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke="#08122b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="#08122b" stroke-width="2.2" stroke-linecap="round"/></svg>
+          Get the extension
+        </a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="microcopy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#7f89a8" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#5cd2c1" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Payment always happens on the real eChannelling site. Nothing to sign up for.
+      </p>
+    </div>
+
+    <!-- weekly calendar mock -->
+    <div class="mock" role="img" aria-label="A mock of Doctor Lanka's weekly calendar showing a doctor's available time slots across a week, with full sessions dimmed and one slot selected.">
+      <div class="mock-bar">
+        <span class="tl"><i></i><i></i><i></i></span>
+        <span class="mock-search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#7f89a8" stroke-width="2"/><path d="m20 20-3-3" stroke="#7f89a8" stroke-width="2" stroke-linecap="round"/></svg>
+          Dr. Perera — Cardiologist
+        </span>
+        <span class="mock-chip">Available only</span>
+      </div>
+      <div class="mock-grid">
+        <div class="mock-day"><span class="d">Mon</span><span class="slot free">08:30</span><span class="slot full">16:00</span><span class="slot ghost">·</span></div>
+        <div class="mock-day"><span class="d">Tue</span><span class="slot ghost">·</span><span class="slot free">17:30</span><span class="slot ghost">·</span></div>
+        <div class="mock-day"><span class="d">Wed</span><span class="slot free">09:00</span><span class="slot pick">18:00</span><span class="slot free">19:30</span></div>
+        <div class="mock-day"><span class="d">Thu</span><span class="slot full">10:00</span><span class="slot ghost">·</span><span class="slot ghost">·</span></div>
+        <div class="mock-day"><span class="d">Fri</span><span class="slot free">08:00</span><span class="slot free">16:30</span><span class="slot ghost">·</span></div>
+        <div class="mock-day"><span class="d">Sat</span><span class="slot free">07:30</span><span class="slot ghost">·</span><span class="slot ghost">·</span></div>
+        <div class="mock-day"><span class="d">Sun</span><span class="slot ghost">·</span><span class="slot ghost">·</span><span class="slot ghost">·</span></div>
+      </div>
+      <div class="mock-foot">
+        <span class="legend"><span class="sw" style="background:rgba(92,210,193,.5)"></span> Available</span>
+        <span class="legend"><span class="sw" style="background:rgba(248,113,113,.4)"></span> Full</span>
+        <span class="legend"><span class="sw" style="background:linear-gradient(120deg,#7aa2ff,#5cd2c1)"></span> Your pick</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="wrap">
+    <div class="band">
+      <span class="eyebrow">The problem</span>
+      <h2 style="font-size:clamp(24px,3.4vw,34px);font-weight:800;max-width:20ch">Finding the right doctor session on eChannelling takes far too long.</h2>
+      <p class="lead" style="margin-top:16px">eChannelling is how most of Sri Lanka books doctor appointments online. But its flow makes you open one doctor, on one day, at one hospital at a time — so a simple question like <em>“when can I actually see this specialist near me this week?”</em> turns into a long trail of clicks, back-buttons and re-searches.</p>
+      <div class="stat-row">
+        <div class="stat"><b class="grad-text">1 day</b><span>at a time — no single view of a doctor's whole week.</span></div>
+        <div class="stat"><b class="grad-text">Many tabs</b><span>to compare doctors, hospitals and times side by side.</span></div>
+        <div class="stat"><b class="grad-text">Dead ends</b><span>full sessions look the same as open ones until you click.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAINS -->
+<section id="pains" style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The pains</span>
+      <h2>What makes the current experience frustrating</h2>
+      <p class="lead">The information you need to make one decision is scattered across many screens.</p>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <div class="ico pain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>No week at a glance</h3>
+        <p>You check availability day by day. Seeing every slot a doctor has this week means paging through the calendar over and over.</p>
+      </div>
+      <div class="card">
+        <div class="ico pain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Painful to compare</h3>
+        <p>Two doctors, three hospitals, five possible times — comparing them means juggling tabs and holding it all in your head.</p>
+      </div>
+      <div class="card">
+        <div class="ico pain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Full slots waste clicks</h3>
+        <p>Sold-out sessions sit right next to open ones. You only find out a time is gone after you've clicked into it.</p>
+      </div>
+      <div class="card">
+        <div class="ico pain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="15" r="6" stroke="currentColor" stroke-width="1.8"/></svg>
+        </div>
+        <h3>Hard to find a shared time</h3>
+        <p>Need a slot where two doctors are at the same hospital on the same day? There's no easy way to line that up.</p>
+      </div>
+      <div class="card">
+        <div class="ico pain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l5 5v15H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6M9 14h6M9 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Receipts are a scavenger hunt</h3>
+        <p>Pulling up an existing booking or its receipt means digging back through the site with your reference in hand.</p>
+      </div>
+      <div class="card">
+        <div class="ico pain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3 3 8v6c0 5 4 8 9 9 5-1 9-4 9-9V8l-9-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v4m0 3h.01" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Retyping the same details</h3>
+        <p>Name, NIC and phone number, entered again for every booking — for you and for each family member you channel for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAINS / SOLUTION -->
+<section id="solution">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What you get</span>
+      <h2>Everything on one fast screen — then straight to checkout</h2>
+      <p class="lead">Doctor Lanka reads the same live eChannelling data, but shows it the way you actually think about it: by doctor, by week, by what's open.</p>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <div class="ico gain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="3" rx=".6" fill="currentColor"/><rect x="14" y="12" width="3" height="3" rx=".6" fill="currentColor"/></svg>
+        </div>
+        <h3>The whole week, instantly</h3>
+        <p>Search a doctor and see every session across the week in one calendar — no more paging one day at a time.</p>
+      </div>
+      <div class="card">
+        <div class="ico gain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="14" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5 12.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Compare doctors side by side</h3>
+        <p>Add a second or third doctor and see them together — and find the times where they share a hospital and a day.</p>
+      </div>
+      <div class="card">
+        <div class="ico gain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="m4 12 5 5 11-11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Hide what's already full</h3>
+        <p>One toggle drops every sold-out session, so what's left on screen is what you can actually book right now.</p>
+      </div>
+      <div class="card">
+        <div class="ico gain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l5 5v15H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Look up a booking in a paste</h3>
+        <p>Drop in a reference number or the summary URL and pull up the receipt for a booking you've already made.</p>
+      </div>
+      <div class="card">
+        <div class="ico gain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Your details, pre-filled</h3>
+        <p>Save name, NIC, mobile and email once and the patient form arrives filled in — for you or whoever you're booking for.</p>
+      </div>
+      <div class="card">
+        <div class="ico gain" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Checkout stays official</h3>
+        <p>Pick your slot here; payment finishes on echannelling.com itself — same trusted checkout, none of the searching.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps, and you're at the payment page</h2>
+      <p class="lead">Doctor Lanka handles the finding and comparing. eChannelling handles the booking and the money — exactly as before.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="n" aria-hidden="true"></div>
+        <h3>Search &amp; compare</h3>
+        <p>Open Doctor Lanka, search for your doctor, and read the whole week at once. Add more doctors and toggle off full sessions to narrow it down fast.</p>
+      </div>
+      <div class="step">
+        <div class="n" aria-hidden="true"></div>
+        <h3>Pick your slot</h3>
+        <p>Click the time that works — the open one, at the hospital you want, on the day that suits you. That's the decision made in seconds.</p>
+      </div>
+      <div class="step">
+        <div class="n" aria-hidden="true"></div>
+        <h3>Pay on eChannelling</h3>
+        <p>Doctor Lanka hands you to the official site at the patient-details step with your slot already set and your details filled in. You review and pay as usual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust" style="padding-top:14px">
+  <div class="wrap">
+    <div class="trust">
+      <div class="t">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#5cd2c1" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#5cd2c1" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><b>Payment stays official</b><span>Money only ever changes hands on echannelling.com's own checkout — never inside the extension.</span></div>
+      </div>
+      <div class="t">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#7aa2ff" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#7aa2ff" stroke-width="1.7"/></svg>
+        <div><b>Your details stay on your device</b><span>Name, NIC and phone are stored locally in your browser — there's no account and no third-party server.</span></div>
+      </div>
+      <div class="t">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fbbf24" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="#fbbf24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><b>Same data, live</b><span>Doctor Lanka reads the same up-to-the-minute sessions eChannelling shows — just laid out to save you time.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / GET -->
+<section id="get">
+  <div class="wrap">
+    <div class="cta">
+      <span class="eyebrow" style="justify-content:center">Get started</span>
+      <h2>Ready to skip the click marathon?</h2>
+      <p>Doctor Lanka installs into Chrome in about five minutes — no account, no cost. You channel doctors the fast way and check out on the site you already trust.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://github.com/bsc2fast/doctor-lanka-web#install" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke="#08122b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="#08122b" stroke-width="2.2" stroke-linecap="round"/></svg>
+          Install guide
+        </a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+      <p class="install-note">Loads as an unpacked Chrome extension (Developer mode). Step-by-step instructions are in the install guide.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <a class="brand" href="#top" style="font-size:15px">
+        <img src="assets/logo.svg" alt="" width="24" height="24" style="border-radius:6px" />
+        <span>Doctor Lanka</span>
+      </a>
+      <nav class="nav-links" style="gap:20px">
+        <a href="#problem">Problem</a>
+        <a href="#solution">What you get</a>
+        <a href="#how">How it works</a>
+        <a href="#get">Get it</a>
+      </nav>
+    </div>
+    <p class="disc">Doctor Lanka is an independent, free helper tool for the public eChannelling website and is not affiliated with, endorsed by, or operated by eChannelling PLC or its partners. “eChannelling” is used only to describe what the tool works with. All appointments and payments are completed on eChannelling's own site.</p>
+  </div>
+</footer>
+
+</body>
+</html>
