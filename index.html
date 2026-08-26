@@ -238,6 +238,50 @@
   .disc{margin-top:16px;max-width:70ch;color:var(--muted-2);font-size:12px;line-height:1.5}
 
   .chk{color:var(--teal)}
+
+  /* ---- screenshot carousel ---- */
+  .shots-head{text-align:center;max-width:60ch;margin:0 auto 30px}
+  .shots-head h2{font-size:clamp(24px,3.4vw,32px);font-weight:800}
+  .shots-head p{margin-top:12px;color:var(--muted);font-size:16px}
+  .carousel{position:relative;max-width:940px;margin:0 auto}
+  .frame{
+    border:1px solid var(--line-strong);border-radius:16px;overflow:hidden;
+    background:linear-gradient(180deg,#10162c,#0c1122);
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .frame-bar{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid var(--line)}
+  .frame-bar i{width:11px;height:11px;border-radius:50%;background:#2a3352;display:block}
+  .frame-bar .url{margin-left:10px;font-size:12px;color:var(--muted-2)}
+  .track{position:relative;aspect-ratio:16/10;background:#0d1226}
+  .slide{
+    position:absolute;inset:0;opacity:0;transition:opacity .6s ease;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .slide.on{opacity:1}
+  .slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .slide .ph{color:var(--muted-2);font-size:14px;text-align:center;padding:24px;line-height:1.5}
+  .slide .ph b{display:block;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:14px 18px;
+    background:linear-gradient(180deg,transparent,rgba(6,10,22,.85));
+    font-size:13.5px;font-weight:600;color:#e7ecfb
+  }
+  .dots{display:flex;justify-content:center;gap:8px;margin-top:18px}
+  .dots button{
+    width:9px;height:9px;padding:0;border-radius:50%;border:none;cursor:pointer;
+    background:var(--line-strong);transition:background .18s ease, width .18s ease
+  }
+  .dots button.on{width:26px;border-radius:6px;background:var(--grad)}
+  .arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);
+    background:rgba(11,16,32,.7);backdrop-filter:blur(6px);color:var(--ink);
+    display:grid;place-items:center;cursor:pointer
+  }
+  .arrow:hover{border-color:var(--blue);background:rgba(122,162,255,.14)}
+  .arrow.prev{left:-8px}
+  .arrow.next{right:-8px}
+  @media(max-width:640px){.arrow{display:none}}
 </style>
 </head>
 <body>
@@ -249,7 +293,7 @@
       <span>Doctor&nbsp;Lanka</span>
     </a>
     <nav class="nav-links">
-      <a href="#problem">The problem</a>
+      <a href="#screens">Screens</a>
       <a href="#solution">What you get</a>
       <a href="#how">How it works</a>
       <a class="btn btn-primary btn-sm" href="#get">Get the extension</a>
@@ -265,7 +309,7 @@
     <div>
       <span class="pill"><span class="dot"></span> Free Chrome extension · works with <b>echannelling.com</b></span>
       <h1 class="title">Book Sri Lankan doctors <span class="grad-text">in a fraction of the clicks</span>.</h1>
-      <p class="lead">Doctor Lanka lays a fast, weekly calendar over eChannelling. See a doctor's whole week at a glance, compare hospitals and times, then finish on the official site — the way you always have.</p>
+      <p class="lead">A fast weekly calendar over eChannelling. See a doctor's whole week, compare hospitals and times, then check out on the official site.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#get">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke="#08122b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="#08122b" stroke-width="2.2" stroke-linecap="round"/></svg>
@@ -275,7 +319,7 @@
       </div>
       <p class="microcopy">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#7f89a8" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#5cd2c1" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Payment always happens on the real eChannelling site. Nothing to sign up for.
+        Payment stays on eChannelling. No sign-up.
       </p>
     </div>
 
@@ -307,73 +351,25 @@
   </div>
 </section>
 
-<!-- PROBLEM -->
-<section id="problem">
+<!-- SCREENS -->
+<section id="screens" style="padding-top:24px">
   <div class="wrap">
-    <div class="band">
-      <span class="eyebrow">The problem</span>
-      <h2 style="font-size:clamp(24px,3.4vw,34px);font-weight:800;max-width:20ch">Finding the right doctor session on eChannelling takes far too long.</h2>
-      <p class="lead" style="margin-top:16px">eChannelling is how most of Sri Lanka books doctor appointments online. But its flow makes you open one doctor, on one day, at one hospital at a time — so a simple question like <em>“when can I actually see this specialist near me this week?”</em> turns into a long trail of clicks, back-buttons and re-searches.</p>
-      <div class="stat-row">
-        <div class="stat"><b class="grad-text">1 day</b><span>at a time — no single view of a doctor's whole week.</span></div>
-        <div class="stat"><b class="grad-text">Many tabs</b><span>to compare doctors, hospitals and times side by side.</span></div>
-        <div class="stat"><b class="grad-text">Dead ends</b><span>full sessions look the same as open ones until you click.</span></div>
-      </div>
+    <div class="shots-head">
+      <span class="eyebrow" style="justify-content:center">See it in action</span>
+      <h2>The extension, screen by screen</h2>
     </div>
-  </div>
-</section>
-
-<!-- PAINS -->
-<section id="pains" style="padding-top:20px">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">The pains</span>
-      <h2>What makes the current experience frustrating</h2>
-      <p class="lead">The information you need to make one decision is scattered across many screens.</p>
-    </div>
-    <div class="grid cols-3">
-      <div class="card">
-        <div class="ico pain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>No week at a glance</h3>
-        <p>You check availability day by day. Seeing every slot a doctor has this week means paging through the calendar over and over.</p>
+    <div class="carousel" id="carousel">
+      <button class="arrow prev" id="prev" aria-label="Previous screenshot">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="arrow next" id="next" aria-label="Next screenshot">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="frame">
+        <div class="frame-bar"><i></i><i></i><i></i><span class="url">Doctor Lanka</span></div>
+        <div class="track" id="track"><!-- slides injected by JS --></div>
       </div>
-      <div class="card">
-        <div class="ico pain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Painful to compare</h3>
-        <p>Two doctors, three hospitals, five possible times — comparing them means juggling tabs and holding it all in your head.</p>
-      </div>
-      <div class="card">
-        <div class="ico pain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Full slots waste clicks</h3>
-        <p>Sold-out sessions sit right next to open ones. You only find out a time is gone after you've clicked into it.</p>
-      </div>
-      <div class="card">
-        <div class="ico pain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="15" r="6" stroke="currentColor" stroke-width="1.8"/></svg>
-        </div>
-        <h3>Hard to find a shared time</h3>
-        <p>Need a slot where two doctors are at the same hospital on the same day? There's no easy way to line that up.</p>
-      </div>
-      <div class="card">
-        <div class="ico pain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l5 5v15H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6M9 14h6M9 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Receipts are a scavenger hunt</h3>
-        <p>Pulling up an existing booking or its receipt means digging back through the site with your reference in hand.</p>
-      </div>
-      <div class="card">
-        <div class="ico pain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3 3 8v6c0 5 4 8 9 9 5-1 9-4 9-9V8l-9-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v4m0 3h.01" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Retyping the same details</h3>
-        <p>Name, NIC and phone number, entered again for every booking — for you and for each family member you channel for.</p>
-      </div>
+      <div class="dots" id="dots"></div>
     </div>
   </div>
 </section>
@@ -383,8 +379,7 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">What you get</span>
-      <h2>Everything on one fast screen — then straight to checkout</h2>
-      <p class="lead">Doctor Lanka reads the same live eChannelling data, but shows it the way you actually think about it: by doctor, by week, by what's open.</p>
+      <h2>Everything on one screen, then straight to checkout</h2>
     </div>
     <div class="grid cols-3">
       <div class="card">
@@ -392,42 +387,42 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="3" rx=".6" fill="currentColor"/><rect x="14" y="12" width="3" height="3" rx=".6" fill="currentColor"/></svg>
         </div>
         <h3>The whole week, instantly</h3>
-        <p>Search a doctor and see every session across the week in one calendar — no more paging one day at a time.</p>
+        <p>Every session a doctor has this week, in one calendar.</p>
       </div>
       <div class="card">
         <div class="ico gain" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="14" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5 12.5 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </div>
         <h3>Compare doctors side by side</h3>
-        <p>Add a second or third doctor and see them together — and find the times where they share a hospital and a day.</p>
+        <p>Line up two or three doctors and spot shared days and hospitals.</p>
       </div>
       <div class="card">
         <div class="ico gain" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="m4 12 5 5 11-11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h3>Hide what's already full</h3>
-        <p>One toggle drops every sold-out session, so what's left on screen is what you can actually book right now.</p>
+        <p>One toggle drops every sold-out session from view.</p>
       </div>
       <div class="card">
         <div class="ico gain" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l5 5v15H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </div>
         <h3>Look up a booking in a paste</h3>
-        <p>Drop in a reference number or the summary URL and pull up the receipt for a booking you've already made.</p>
+        <p>Paste a reference number or URL to pull up the receipt.</p>
       </div>
       <div class="card">
         <div class="ico gain" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </div>
         <h3>Your details, pre-filled</h3>
-        <p>Save name, NIC, mobile and email once and the patient form arrives filled in — for you or whoever you're booking for.</p>
+        <p>Save name, NIC, mobile and email once; the form arrives filled in.</p>
       </div>
       <div class="card">
         <div class="ico gain" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h3>Checkout stays official</h3>
-        <p>Pick your slot here; payment finishes on echannelling.com itself — same trusted checkout, none of the searching.</p>
+        <p>Pick the slot here; pay on echannelling.com as usual.</p>
       </div>
     </div>
   </div>
@@ -438,24 +433,23 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">How it works</span>
-      <h2>Three steps, and you're at the payment page</h2>
-      <p class="lead">Doctor Lanka handles the finding and comparing. eChannelling handles the booking and the money — exactly as before.</p>
+      <h2>Three steps to the payment page</h2>
     </div>
     <div class="steps">
       <div class="step">
         <div class="n" aria-hidden="true"></div>
         <h3>Search &amp; compare</h3>
-        <p>Open Doctor Lanka, search for your doctor, and read the whole week at once. Add more doctors and toggle off full sessions to narrow it down fast.</p>
+        <p>Find your doctor and read the whole week at once.</p>
       </div>
       <div class="step">
         <div class="n" aria-hidden="true"></div>
         <h3>Pick your slot</h3>
-        <p>Click the time that works — the open one, at the hospital you want, on the day that suits you. That's the decision made in seconds.</p>
+        <p>Click the open time that suits you.</p>
       </div>
       <div class="step">
         <div class="n" aria-hidden="true"></div>
         <h3>Pay on eChannelling</h3>
-        <p>Doctor Lanka hands you to the official site at the patient-details step with your slot already set and your details filled in. You review and pay as usual.</p>
+        <p>Land on the official checkout with your slot and details ready.</p>
       </div>
     </div>
   </div>
@@ -481,13 +475,38 @@
   </div>
 </section>
 
+<!-- PRIVACY -->
+<section id="privacy" style="padding-top:14px">
+  <div class="wrap">
+    <div class="band">
+      <span class="eyebrow">Privacy</span>
+      <h2 style="font-size:clamp(22px,3vw,30px);font-weight:800;max-width:24ch">No account, no server, nothing to collect.</h2>
+      <p class="lead" style="margin-top:14px">Doctor Lanka runs entirely in your browser. Your patient details — name, NIC, mobile, email — are stored only on your device (Chrome's local storage) and are sent only to eChannelling when you book, exactly as if you'd typed them on the site.</p>
+      <div class="trust" style="margin-top:24px">
+        <div class="t">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#5cd2c1" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#5cd2c1" stroke-width="1.7"/></svg>
+          <div><b>Stays on your device</b><span>Details live in <code>chrome.storage.local</code> — never uploaded to us.</span></div>
+        </div>
+        <div class="t">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#7aa2ff" stroke-width="1.7"/><path d="M15 9l-6 6M9 9l6 6" stroke="#7aa2ff" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <div><b>No tracking</b><span>No analytics, no ads, no third-party servers, no data sold.</span></div>
+        </div>
+        <div class="t">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#fbbf24" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          <div><b>Payment stays official</b><span>Money only changes hands on echannelling.com's own checkout.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA / GET -->
 <section id="get">
   <div class="wrap">
     <div class="cta">
       <span class="eyebrow" style="justify-content:center">Get started</span>
       <h2>Ready to skip the click marathon?</h2>
-      <p>Doctor Lanka installs into Chrome in about five minutes — no account, no cost. You channel doctors the fast way and check out on the site you already trust.</p>
+      <p>Installs into Chrome in a few minutes. No account, no cost.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="https://github.com/bsc2fast/doctor-lanka-web#install" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke="#08122b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="#08122b" stroke-width="2.2" stroke-linecap="round"/></svg>
@@ -508,15 +527,99 @@
         <span>Doctor Lanka</span>
       </a>
       <nav class="nav-links" style="gap:20px">
-        <a href="#problem">Problem</a>
+        <a href="#screens">Screens</a>
         <a href="#solution">What you get</a>
         <a href="#how">How it works</a>
+        <a href="#privacy">Privacy</a>
         <a href="#get">Get it</a>
       </nav>
     </div>
     <p class="disc">Doctor Lanka is an independent, free helper tool for the public eChannelling website and is not affiliated with, endorsed by, or operated by eChannelling PLC or its partners. “eChannelling” is used only to describe what the tool works with. All appointments and payments are completed on eChannelling's own site.</p>
   </div>
 </footer>
+
+<script>
+  /* ------------------------------------------------------------------
+     Screenshot carousel.
+     To add/replace screenshots: drop PNG/JPG files into
+     assets/screenshots/ and edit this list. Order = display order.
+     Any file that fails to load shows a neutral placeholder instead
+     of a broken image, so the page is safe to ship before the shots
+     are in. Recommended image size: 1600×1000 (16:10), < 400 KB each.
+  ------------------------------------------------------------------ */
+  var SHOTS = [
+    { src: "assets/screenshots/01-week.png",     cap: "A doctor's whole week in one calendar" },
+    { src: "assets/screenshots/02-compare.png",  cap: "Compare doctors side by side" },
+    { src: "assets/screenshots/03-available.png",cap: "Hide full sessions — only bookable slots remain" },
+    { src: "assets/screenshots/04-details.png",  cap: "Patient details, saved and pre-filled" },
+    { src: "assets/screenshots/05-checkout.png", cap: "Hand-off to eChannelling's official checkout" }
+  ];
+
+  (function () {
+    var track = document.getElementById("track");
+    var dotsEl = document.getElementById("dots");
+    if (!track) return;
+
+    SHOTS.forEach(function (s, i) {
+      var slide = document.createElement("div");
+      slide.className = "slide" + (i === 0 ? " on" : "");
+
+      var img = document.createElement("img");
+      img.loading = "lazy";
+      img.alt = s.cap;
+      img.src = s.src;
+      img.onerror = function () {
+        slide.innerHTML =
+          '<div class="ph"><b>Screenshot ' + (i + 1) + '</b>' +
+          s.cap + '<br><span style="opacity:.7">add ' + s.src + '</span></div>';
+      };
+      slide.appendChild(img);
+
+      var cap = document.createElement("div");
+      cap.className = "cap";
+      cap.textContent = s.cap;
+      slide.appendChild(cap);
+
+      track.appendChild(slide);
+
+      var dot = document.createElement("button");
+      dot.className = i === 0 ? "on" : "";
+      dot.setAttribute("aria-label", "Go to screenshot " + (i + 1));
+      dot.addEventListener("click", function () { go(i); });
+      dotsEl.appendChild(dot);
+    });
+
+    var slides = track.querySelectorAll(".slide");
+    var dots = dotsEl.querySelectorAll("button");
+    var idx = 0, timer = null, DELAY = 4000;
+
+    function go(n) {
+      slides[idx].classList.remove("on");
+      dots[idx].classList.remove("on");
+      idx = (n + slides.length) % slides.length;
+      slides[idx].classList.add("on");
+      dots[idx].classList.add("on");
+      restart();
+    }
+    function next() { go(idx + 1); }
+    function restart() {
+      if (timer) clearInterval(timer);
+      if (slides.length > 1) timer = setInterval(next, DELAY);
+    }
+
+    document.getElementById("next").addEventListener("click", function () { go(idx + 1); });
+    document.getElementById("prev").addEventListener("click", function () { go(idx - 1); });
+
+    var carousel = document.getElementById("carousel");
+    carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
+    carousel.addEventListener("mouseleave", restart);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { if (timer) clearInterval(timer); } else { restart(); }
+    });
+
+    restart();
+  })();
+</script>
 
 </body>
 </html>
