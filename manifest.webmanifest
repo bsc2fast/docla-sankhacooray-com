@@ -1,7 +1,7 @@
 {
-  "name": "Doctor Lanka — faster eChannelling",
+  "name": "Doctor Lanka — faster doctor booking",
   "short_name": "Doctor Lanka",
-  "description": "A free Chrome extension that puts a fast weekly calendar over Sri Lanka's eChannelling. Compare doctors, hospitals and times at a glance, then check out on the official site.",
+  "description": "A companion Chrome extension that puts a fast weekly calendar over Sri Lanka's doctor-channelling. Compare doctors, hospitals and times at a glance, then check out on the official site. Invitation only.",
   "start_url": "/doctor-lanka-web/",
   "scope": "/doctor-lanka-web/",
   "display": "standalone",

@@ -1,0 +1,12 @@
+# Static-assets Worker that serves this landing page at docla.sankhacooray.com.
+# No Worker script — Cloudflare serves ./ as static assets. Custom domain auto-
+# provisions the DNS record in the sankhacooray.com zone.
+name = "docla"
+compatibility_date = "2024-11-01"
+
+[assets]
+directory = "."
+
+[[routes]]
+pattern = "docla.sankhacooray.com"
+custom_domain = true
