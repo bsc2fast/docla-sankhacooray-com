@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+<title>Privacy Policy — Doctor Lanka</title>
+<meta name="description" content="Privacy policy for the Doctor Lanka Chrome extension. Doctor Lanka runs entirely in your browser, stores your details only on your device, and collects no data." />
+<link rel="canonical" href="https://docla.sankhacooray.com/privacy" />
+<meta name="robots" content="index,follow" />
+
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<meta name="theme-color" content="#0b1020" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Set theme before first paint to avoid a flash -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("dl-theme");
+      if (t !== "light" && t !== "dark") {
+        t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  })();
+</script>
+
+<style>
+  :root{
+    --navy:#0b1020;
+    --card:#141a2e;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.14);
+    --ink:#eef2fb;
+    --muted:#a7b0cc;
+    --muted-2:#7f89a8;
+    --blue:#7aa2ff;
+    --teal:#5cd2c1;
+    --grad:linear-gradient(120deg,#7aa2ff 0%,#5cd2c1 100%);
+    --maxw:760px;
+    --r:16px;
+  }
+  :root[data-theme="light"]{
+    --navy:#eef1f9;
+    --card:#ffffff;
+    --line:rgba(24,34,84,.12);
+    --line-strong:rgba(24,34,84,.20);
+    --ink:#141a33;
+    --muted:#525b80;
+    --muted-2:#727b9c;
+    --blue:#2f54e0;
+    --teal:#0b9a8d;
+    --grad:linear-gradient(120deg,#2f54e0 0%,#0b9a8d 100%);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(122,162,255,.16), transparent 60%),
+      radial-gradient(800px 520px at 92% 4%, rgba(92,210,193,.12), transparent 58%),
+      var(--navy);
+    color:var(--ink);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height:100vh;
+  }
+  :root[data-theme="light"] body{
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(47,84,224,.10), transparent 60%),
+      radial-gradient(800px 520px at 92% 4%, rgba(11,154,141,.09), transparent 58%),
+      var(--navy);
+  }
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(12px);
+    background:rgba(11,16,32,.72);
+    border-bottom:1px solid var(--line);
+  }
+  :root[data-theme="light"] header.nav{background:rgba(238,241,249,.82)}
+  .nav-in{
+    max-width:var(--maxw);margin:0 auto;padding:0 22px;
+    display:flex;align-items:center;justify-content:space-between;height:64px;
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.01em;font-size:17px;color:var(--ink)}
+  .brand:hover{text-decoration:none}
+  .brand img{width:30px;height:30px;border-radius:8px}
+  .back{color:var(--muted);font-weight:500;font-size:14.5px}
+
+  main{max-width:var(--maxw);margin:0 auto;padding:56px 22px 96px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 14px;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;border-radius:2px;background:var(--grad)}
+  h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.02em;margin:0 0 10px;line-height:1.12}
+  .updated{color:var(--muted-2);font-size:14px;margin:0 0 8px}
+  .tldr{
+    margin:28px 0 8px;padding:18px 20px;border:1px solid var(--line-strong);
+    border-radius:var(--r);background:var(--card);
+  }
+  .tldr b{color:var(--ink)}
+  h2{font-size:20px;font-weight:700;letter-spacing:-.01em;margin:38px 0 10px}
+  p{color:var(--muted);margin:12px 0}
+  ul{color:var(--muted);margin:12px 0;padding-left:22px}
+  li{margin:7px 0}
+  code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em;
+    background:rgba(122,162,255,.12);padding:1px 6px;border-radius:6px;color:var(--ink);
+  }
+  strong{color:var(--ink)}
+  .foot{margin-top:48px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted-2);font-size:13.5px}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="/">
+      <img src="assets/logo.svg" alt="Doctor Lanka logo" />
+      <span>Doctor&nbsp;Lanka</span>
+    </a>
+    <a class="back" href="/">← Back to site</a>
+  </div>
+</header>
+
+<main>
+  <span class="eyebrow">Privacy</span>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: 10 September 2026</p>
+
+  <div class="tldr">
+    <b>In one line:</b> Doctor Lanka runs entirely in your browser. It has no account,
+    no server, and no analytics. Your details stay on your device and are sent only to
+    the official eChannelling booking site when you choose to book — exactly as if you
+    had typed them there yourself.
+  </div>
+
+  <h2>Who this policy is for</h2>
+  <p>
+    This policy covers the <strong>Doctor Lanka</strong> Chrome extension (the “extension”),
+    published by <strong>BSC Extensions</strong>. Doctor Lanka is an independent companion
+    tool that provides a faster weekly-calendar view over Sri Lanka's public
+    doctor-channelling service (<a href="https://www.echannelling.com" rel="noopener">echannelling.com</a>).
+    It is not affiliated with, endorsed by, or operated by any booking provider.
+  </p>
+
+  <h2>What data the extension handles</h2>
+  <p>
+    To pre-fill the booking form for you, the extension can store the patient details you
+    enter into it:
+  </p>
+  <ul>
+    <li>Patient name</li>
+    <li>NIC (National Identity Card) number</li>
+    <li>Mobile number</li>
+    <li>Email address</li>
+    <li>Your own preferences and settings for the calendar view</li>
+  </ul>
+  <p>
+    You enter these yourself, and only if you want the booking form pre-filled. The
+    extension does not read, collect, or infer any other personal information.
+  </p>
+
+  <h2>Where your data is stored</h2>
+  <p>
+    Everything above is stored <strong>only on your own device</strong>, in Chrome's
+    <code>chrome.storage.local</code>. It is never uploaded to us, and we operate no server
+    or database that could receive it. There is no account to create and no sign-in.
+  </p>
+
+  <h2>What data is shared, and with whom</h2>
+  <p>
+    The extension sends data to <strong>one place only</strong>: the official eChannelling
+    website and its own public API, and only for the actions you take.
+  </p>
+  <ul>
+    <li>
+      <strong>Reading availability:</strong> the extension calls eChannelling's own public
+      data endpoints (doctors, hospitals, sessions) — the same ones the website itself uses —
+      to build the calendar. No personal data of yours is included in these requests.
+    </li>
+    <li>
+      <strong>Booking:</strong> when you choose a slot and continue to checkout, your patient
+      details are handed to eChannelling's own booking form — exactly as if you had typed
+      them on the site. Payment and confirmation always complete on eChannelling's own
+      official checkout, under their terms and privacy policy.
+    </li>
+  </ul>
+  <p>
+    We do not sell, rent, or share your data with any other party, and we run no third-party
+    analytics, advertising, or tracking of any kind.
+  </p>
+
+  <h2>Browser permissions we request, and why</h2>
+  <ul>
+    <li><code>storage</code> — to keep your patient details and settings on your device.</li>
+    <li><code>tabs</code> — to open the calendar and hand your chosen slot to your eChannelling tab.</li>
+    <li>
+      <code>declarativeNetRequest</code> — to add the <code>Origin</code>/<code>Referer</code>
+      headers eChannelling's API gateway requires (a page request cannot set these). The rules
+      are static; the extension never reads request or response bodies.
+    </li>
+    <li>
+      Access to <code>echannelling.com</code> and its public API gateway — to read the public
+      session data and seed the slot you pick into the site's checkout.
+    </li>
+  </ul>
+
+  <h2>Data retention and deletion</h2>
+  <p>
+    Because your data lives only in your browser, you are always in control of it. To erase
+    everything the extension has stored, clear its data from within the extension, or remove
+    the extension from <code>chrome://extensions</code> — uninstalling deletes its local
+    storage. We hold no copy to delete.
+  </p>
+
+  <h2>Children</h2>
+  <p>
+    Doctor Lanka is a general-purpose booking helper and is not directed at children. It
+    collects no data centrally and stores only what an adult enters to book an appointment.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If this policy changes, the updated version will be posted on this page with a new “last
+    updated” date. Material changes will be reflected here before they take effect.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about privacy? Email
+    <a href="mailto:bsc2fast@gmail.com">bsc2fast@gmail.com</a>.
+  </p>
+
+  <div class="foot">
+    Doctor Lanka is an independent companion tool for the public eChannelling service. It is
+    not affiliated with, endorsed by, or operated by eChannelling PLC. All appointments and
+    payments complete on the provider's own official site.
+  </div>
+</main>
+
+</body>
+</html>

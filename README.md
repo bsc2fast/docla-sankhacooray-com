@@ -5,7 +5,7 @@ fast weekly calendar over Sri Lanka's [eChannelling](https://www.echannelling.co
 Compare doctors, hospitals and times at a glance — then check out on the official
 site as usual.
 
-**Live:** https://bsc2fast.github.io/doctor-lanka-web/
+**Live:** https://docla.sankhacooray.com/ (privacy policy: https://docla.sankhacooray.com/privacy)
 
 This repo is just the marketing/landing page (a single static `index.html`). The
 extension itself lives separately.
@@ -43,8 +43,15 @@ python3 -m http.server 4655   # then open http://localhost:4655
 
 ## Deploy
 
-Served by **GitHub Pages from the `main` branch root** — every push to `main`
-publishes. No build step. (`.nojekyll` keeps Pages from processing the site.)
+Served at **docla.sankhacooray.com** by a Cloudflare **static-assets Worker** named
+`docla` (config in `wrangler.toml`). Redeploy with:
+
+```sh
+npx wrangler deploy
+```
+
+No build step. (The old GitHub Pages copy at `bsc2fast.github.io/doctor-lanka-web`
+is retired.)
 
 ## Not affiliated
 
