@@ -60,9 +60,9 @@
 <style>
   :root{
     --navy:#0b1020;
-    --navy-2:#141a2e;
     --card:#141a2e;
-    --card-2:#182042;
+    --surface:rgba(255,255,255,.035);
+    --surface-2:rgba(255,255,255,.06);
     --line:rgba(255,255,255,.08);
     --line-strong:rgba(255,255,255,.14);
     --ink:#eef2fb;
@@ -70,264 +70,243 @@
     --muted-2:#7f89a8;
     --blue:#7aa2ff;
     --teal:#5cd2c1;
-    --amber:#fbbf24;
-    --red:#f87171;
+    --brand:#1e88e5;          /* the icon's tile blue */
+    --brand-hover:#42a5f5;
+    --brand-active:#1565c0;
     --doc1:#fb923c;
     --doc2:#38bdf8;
     --doc3:#4ade80;
     --grad:linear-gradient(120deg,#7aa2ff 0%,#5cd2c1 100%);
-    --maxw:1080px;
+    --maxw:1180px;
+    --gutter:clamp(16px,3vw,32px);
     --r:16px;
+    --bar-h:64px;
   }
 
+  /* no overscroll bounce: body is the scroller (rule 14) */
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{height:100%;overflow:hidden;background:var(--navy);overscroll-behavior:none}
   body{
-    margin:0;
+    height:100%;margin:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:none;
     font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
     background:
       radial-gradient(900px 500px at 12% -8%, rgba(122,162,255,.16), transparent 60%),
       radial-gradient(800px 520px at 92% 4%, rgba(92,210,193,.12), transparent 58%),
       var(--navy);
-    color:var(--ink);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
+    color:var(--ink);line-height:1.55;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   }
   a{color:inherit}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-  section{padding:74px 0}
   h1,h2,h3{line-height:1.15;margin:0;letter-spacing:-.02em}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
   .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:8px;
-    font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--teal);margin:0 0 16px
-  }
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
   .eyebrow::before{content:"";width:26px;height:2px;border-radius:2px;background:var(--grad)}
-  .lead{color:var(--muted);font-size:18px;max-width:62ch}
 
-  /* ---- header ---- */
-  header.nav{
+  /* ---- app bar: no bottom border (rule 7), one primary CTA (rules 10, 12) ---- */
+  .topbar{
     position:sticky;top:0;z-index:50;
-    backdrop-filter:blur(12px);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     background:rgba(11,16,32,.72);
-    border-bottom:1px solid var(--line);
   }
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.01em;font-size:17px;text-decoration:none}
-  .brand img{width:30px;height:30px;border-radius:8px}
-  .nav-links{display:flex;align-items:center;gap:26px}
-  .nav-links a:not(.btn){color:var(--muted);text-decoration:none;font-weight:500;font-size:14.5px}
-  .nav-links a:not(.btn):hover{color:var(--ink)}
-  @media(max-width:640px){header .nav-links a:not(.btn){display:none}}
-  .btn{
-    display:inline-flex;align-items:center;gap:9px;justify-content:center;
-    font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;
-    padding:12px 20px;border-radius:12px;border:1px solid transparent;
-    transition:box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+  .bar-in{display:flex;align-items:center;gap:22px;height:var(--bar-h)}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.01em;font-size:18px;text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:9px;filter:drop-shadow(0 2px 6px rgba(30,136,229,.35))}
+  .nav{display:flex;align-items:center;gap:22px;margin-left:auto}
+  .nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:14.5px;transition:color .18s ease}
+  .nav a:hover{color:var(--ink)}
+  @media(max-width:860px){.nav a{display:none}}
+  .theme-toggle{
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+    width:36px;height:36px;border-radius:10px;cursor:pointer;
+    border:1px solid var(--line-strong);background:var(--surface);
+    color:var(--muted);transition:color .18s ease,border-color .18s ease,background .18s ease;
   }
-  .btn-primary{background:var(--grad);color:#08122b;box-shadow:0 8px 26px rgba(92,210,193,.22)}
-  .btn-primary:hover{box-shadow:0 12px 34px rgba(92,210,193,.34)}
-  .btn-ghost{border-color:var(--line-strong);color:var(--ink);background:rgba(255,255,255,.02)}
-  .btn-ghost:hover{border-color:var(--blue);background:rgba(122,162,255,.08)}
-  .btn-sm{padding:9px 16px;font-size:14px;border-radius:10px}
-  .nav .btn-sm{display:none}
-  @media(min-width:720px){.nav .btn-sm{display:inline-flex}}
+  .theme-toggle:hover{color:var(--ink);border-color:var(--blue)}
+  .theme-toggle .i-sun{display:none}
+  :root[data-theme="light"] .theme-toggle .i-sun{display:block}
+  :root[data-theme="light"] .theme-toggle .i-moon{display:none}
+  .cta{
+    display:inline-flex;align-items:center;gap:9px;flex:none;white-space:nowrap;
+    padding:10px 18px;border-radius:999px;border:0;
+    background:var(--brand);color:#fff;font-weight:700;font-size:14.5px;text-decoration:none;
+    box-shadow:0 6px 18px rgba(30,136,229,.35);
+    transition:background .2s ease,box-shadow .2s ease;
+  }
+  .cta:hover{background:var(--brand-hover);box-shadow:0 8px 26px rgba(30,136,229,.55)}
+  .cta:active{background:var(--brand-active)}
+  .cta svg{flex:none}
+  @media(max-width:420px){.cta .long{display:none}}
+  @media(min-width:421px){.cta .short{display:none}}
 
-  /* ---- hero ---- */
-  .hero{padding-top:64px;padding-bottom:34px}
-  .hero-grid{display:grid;grid-template-columns:1fr;gap:44px;align-items:center}
-  @media(min-width:940px){.hero-grid{grid-template-columns:.95fr 1.05fr;gap:48px}}
+  /* ---- screen-fit groups (rules 1, 4, 5) ---- */
+  main{display:block}
+  .group{
+    display:flex;flex-direction:column;justify-content:center;
+    padding-block:clamp(18px,3.4vh,52px);
+    scroll-margin-top:var(--bar-h);
+  }
+  .group > .wrap{display:flex;flex-direction:column;min-height:100%}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(14px,3vh,28px)}
+  .head h2{font-size:clamp(24px,min(4.2vh,7.4vw),38px);font-weight:800}
+  .head p{margin:0;color:var(--muted);font-size:clamp(14.5px,2.1vh,17px);max-width:44ch;text-align:right}
+  @media(max-width:760px){.head{flex-direction:column;align-items:flex-start}.head p{text-align:left}}
+
+  /* ---- hero: the mechanism, input → output (rules 15, 16) ---- */
+  .hero{text-align:center}
+  .hero > .wrap{max-width:calc(var(--maxw) * var(--flow-zoom,1))}
   .pill{
-    display:inline-flex;align-items:center;gap:9px;
-    padding:7px 14px;border-radius:999px;border:1px solid var(--line-strong);
-    background:rgba(255,255,255,.03);color:var(--muted);font-size:13px;font-weight:600;margin-bottom:22px
+    display:inline-flex;align-items:center;gap:9px;align-self:center;
+    padding:6px 14px;border-radius:999px;background:var(--surface-2);
+    color:var(--muted);font-size:13px;font-weight:600;margin-bottom:clamp(12px,2.4vh,22px)
   }
   .pill b{color:var(--teal)}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(92,210,193,.16)}
-  h1.title{font-size:clamp(33px,5.4vw,54px);font-weight:800}
-  .hero p.lead{margin:20px 0 0;font-size:19px}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
-  .microcopy{margin-top:16px;color:var(--muted-2);font-size:13.5px;display:flex;align-items:center;gap:8px}
-  .microcopy svg{flex:none}
+  h1.title{font-size:clamp(30px,min(6.4vh,9.6vw),56px);font-weight:800}
+  .hero .lead{margin:clamp(10px,2vh,18px) auto 0;color:var(--muted);font-size:clamp(16px,2.5vh,20px);max-width:56ch}
 
-  /* ---- hero mock: three search columns ---- */
-  .mock{
-    border:1px solid var(--line-strong);border-radius:20px;overflow:hidden;
-    background:linear-gradient(180deg,#10162c,#0c1122);
-    box-shadow:0 30px 70px -30px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.04);
+  .flow{
+    display:grid;grid-template-columns:1.25fr auto 1fr auto 1fr;align-items:stretch;gap:clamp(8px,1.2vw,16px);
+    margin-top:clamp(18px,4.4vh,44px);text-align:left;
+    zoom:var(--flow-zoom,1);   /* scales the illustration with screen height (rule 4) */
   }
-  .mock-bar{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line)}
-  .mock-tabs{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:9px}
-  .mock-tab{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--muted-2);padding:4px 9px;border-radius:6px}
-  .mock-tab.on{background:rgba(122,162,255,.14);color:var(--blue)}
-  .mock-bar .sd{margin-left:auto;width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16)}
-  .mcols{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
-  .mcol{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);padding:9px;min-width:0}
-  .mhead{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-  .mhead .mi{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:rgba(122,162,255,.14);color:var(--blue);flex:none}
-  .mhead b{font-size:11.5px;display:block;line-height:1.2}
-  .mhead span{font-size:9.5px;color:var(--muted-2);display:block;line-height:1.2}
-  .mhead .n{margin-left:auto;font-size:9.5px;font-weight:800;color:var(--blue);background:rgba(122,162,255,.14);border-radius:999px;padding:1px 7px}
-  .mrow{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink);padding:5px 6px;border-radius:7px;white-space:nowrap;overflow:hidden}
-  .mrow .t{overflow:hidden;text-overflow:ellipsis;min-width:0}
-  .mrow .t i{font-style:normal;color:var(--muted-2)}
-  .mrow .cb{width:10px;height:10px;border-radius:3px;border:1.5px solid var(--muted-2);flex:none}
-  .mrow.on{background:rgba(122,162,255,.12)}
-  .mrow.on .cb{background:var(--blue);border-color:var(--blue)}
-  .mrow .av{width:14px;height:14px;border-radius:50%;flex:none;background:rgba(122,162,255,.25)}
-  .mrow .av.f{background:rgba(244,114,182,.35)}
-  .mrow .c{margin-left:auto;font-size:9px;font-weight:700;color:var(--muted-2)}
-  .mrow.dim{opacity:.55}
-  .mfoot{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
-  .mfoot b{color:var(--ink)}
-  .mgo{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#08122b;background:var(--grad);padding:6px 11px;border-radius:8px;animation:pulse 2.4s ease-in-out infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(92,210,193,.45)}50%{box-shadow:0 0 0 7px rgba(92,210,193,0)}}
-  @media(prefers-reduced-motion:reduce){.mgo{animation:none}}
-  @media(max-width:520px){
-    .mcols{grid-template-columns:1fr}
-    .mcol:nth-child(n+2) .mrow:nth-child(n+4){display:none}
+  .stage{display:flex;flex-direction:column;gap:10px;min-width:0}
+  .stage-cap{display:flex;align-items:center;gap:9px;font-size:clamp(13px,1.9vh,15px);font-weight:700;color:var(--muted)}
+  .stage-cap .num{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#fff;background:var(--brand)}
+  .panel{
+    flex:1;border-radius:18px;padding:clamp(10px,1.8vh,16px);
+    background:linear-gradient(180deg,#121a33,#0d1328);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.75), inset 0 0 0 1px var(--line);
+    display:flex;flex-direction:column;gap:clamp(6px,1.2vh,10px);min-width:0
+  }
+  .flow-arrow{align-self:center;color:var(--muted-2);padding-top:30px}
+
+  /* chips: one size for every same-role chip (rule 8) */
+  .chip{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    height:26px;padding:0 10px;border-radius:8px;
+    font-size:12px;font-weight:700;white-space:nowrap;
+    background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--line-strong);color:var(--ink)
+  }
+  .chip.o{box-shadow:inset 0 0 0 1.5px var(--doc1)}
+  .chip.b{box-shadow:inset 0 0 0 1.5px var(--doc2)}
+  .chip.g{box-shadow:inset 0 0 0 1.5px var(--doc3)}
+  .chip.ok{box-shadow:inset 0 0 0 1.5px rgba(92,210,193,.6);color:var(--teal);background:rgba(92,210,193,.08)}
+  .chip.blank{visibility:hidden}
+
+  /* stage 1: three search columns */
+  .scols{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .scol{border-radius:12px;background:var(--surface);padding:8px;min-width:0;display:flex;flex-direction:column;gap:4px}
+  .shead{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;margin-bottom:3px;min-width:0}
+  .shead .mi{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:rgba(122,162,255,.16);color:var(--blue);flex:none}
+  .srow{display:flex;align-items:center;gap:6px;font-size:11.5px;padding:5px 6px;border-radius:7px;white-space:nowrap;overflow:hidden;color:var(--muted)}
+  .srow span{overflow:hidden;text-overflow:ellipsis}
+  .srow .cb{width:11px;height:11px;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--muted-2);flex:none}
+  .srow.on{background:rgba(122,162,255,.14);color:var(--ink)}
+  .srow.on .cb{background:var(--blue);box-shadow:none}
+  .sfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--muted)}
+  .sfoot b{color:var(--ink)}
+
+  /* stage 2: the week */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .week{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;align-content:space-around}
+  .week .d{font-size:10.5px;font-weight:800;color:var(--muted-2);text-align:center;letter-spacing:.06em}
+  .week .chip{padding:0;width:100%}
+
+  /* stage 3: official checkout */
+  .co-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px;padding:7px 9px;border-radius:9px;background:var(--surface);min-width:0}
+  .co-row span{color:var(--muted-2);flex:none}
+  .co-row b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .co-pay{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;padding:9px;border-radius:10px;font-size:12.5px;font-weight:700;background:rgba(92,210,193,.12);color:var(--teal)}
+  .co-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted)}
+
+  @media(max-width:900px){
+    .flow{grid-template-columns:1fr;gap:14px}
+    .flow-arrow{transform:rotate(90deg);justify-self:center;padding:0}
   }
 
-  /* ---- three ways ---- */
-  .ways{display:grid;gap:18px;grid-template-columns:1fr}
-  @media(min-width:860px){.ways{grid-template-columns:repeat(3,1fr)}}
-  .way{border:1px solid var(--line);border-radius:var(--r);padding:22px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012))}
-  .way .wi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;background:rgba(122,162,255,.14);color:var(--blue);border:1px solid rgba(122,162,255,.28)}
-  .way h3{font-size:18px;font-weight:700}
-  .way .q{color:var(--teal);font-weight:600;font-size:14.5px;margin:4px 0 10px}
-  .way p{margin:0;color:var(--muted);font-size:15px}
-  .ways-note{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;color:var(--muted);font-size:15px;text-align:center}
+  /* ---- search three ways ---- */
+  .ways{display:grid;gap:clamp(12px,1.6vw,18px);grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media(max-width:860px){.ways{grid-template-columns:1fr}}
+  .way{border-radius:var(--r);padding:clamp(16px,3vh,28px) clamp(18px,1.8vw,26px);background:var(--surface);display:flex;flex-direction:column;gap:4px}
+  .way .wi{width:clamp(40px,6vh,52px);height:clamp(40px,6vh,52px);border-radius:12px;display:grid;place-items:center;margin-bottom:6px;background:rgba(122,162,255,.14);color:var(--blue)}
+  .way h3{font-size:clamp(17px,2.6vh,22px);font-weight:700}
+  .way .q{color:var(--teal);font-weight:600;font-size:clamp(14px,2vh,16px)}
+  .way-art{flex:1;display:flex;flex-direction:column;justify-content:center;gap:4px;margin-top:clamp(8px,1.6vh,16px);padding:clamp(8px,1.4vh,12px);border-radius:12px;background:var(--surface)}
+  .way-art .srow{font-size:clamp(12px,1.8vh,14px);padding:clamp(5px,1vh,8px) 8px}
+  .way-out{display:flex;align-items:center;gap:8px;margin-top:clamp(8px,1.6vh,14px);color:var(--muted);font-size:clamp(14px,2vh,15.5px)}
+  .way-out svg{flex:none;color:var(--teal)}
+  @media(min-width:861px) and (min-height:600px){.ways{min-height:min(54vh,560px)}}
+  .note{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:clamp(12px,2.4vh,22px);color:var(--muted);font-size:clamp(14.5px,2.1vh,16px);text-align:center}
 
-  /* ---- generic card grids ---- */
-  .grid{display:grid;gap:18px}
-  .cols-3{grid-template-columns:1fr}
-  @media(min-width:640px){.cols-3{grid-template-columns:1fr 1fr}}
-  @media(min-width:940px){.cols-3{grid-template-columns:1fr 1fr 1fr}}
-  .card{
-    border:1px solid var(--line);border-radius:var(--r);padding:24px;
-    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
-    transition:border-color .18s ease, background .18s ease;
-  }
-  .card:hover{border-color:var(--line-strong);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
-  .ico{
-    width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px;
-    border:1px solid var(--line-strong);
-  }
-  .ico.gain{background:rgba(92,210,193,.12);color:var(--teal);border-color:rgba(92,210,193,.28)}
-  .card h3{font-size:17.5px;font-weight:700;margin-bottom:7px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .card p{margin:0;color:var(--muted);font-size:15px}
-  .new{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#08122b;background:var(--grad);border-radius:999px;padding:2px 8px}
-  .swatches{display:inline-flex;gap:4px;margin-left:2px}
-  .swatches i{width:10px;height:10px;border-radius:3px;display:block}
-
-  .section-head{max-width:64ch;margin-bottom:38px}
-  .section-head h2{font-size:clamp(26px,3.6vw,36px);font-weight:800}
-  .section-head p{margin-top:14px}
-  .section-head.center{text-align:center;margin-left:auto;margin-right:auto}
-  .section-head.center .eyebrow{justify-content:center}
-
-  /* ---- privacy band ---- */
-  .band{
-    border:1px solid var(--line);border-radius:22px;
-    background:linear-gradient(180deg,rgba(122,162,255,.07),rgba(92,210,193,.03));
-    padding:38px;
-  }
-  @media(min-width:860px){.band{padding:46px}}
-  @media(max-width:520px){.band{padding:26px 20px}}
-
-  /* ---- steps ---- */
-  .steps{display:grid;gap:18px;grid-template-columns:1fr;counter-reset:s}
-  @media(min-width:860px){.steps{grid-template-columns:repeat(4,1fr)}}
-  .step{position:relative;border:1px solid var(--line);border-radius:var(--r);padding:24px 22px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012))}
-  .step .n{
-    counter-increment:s;
-    width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
-    font-weight:800;font-size:16px;color:#08122b;background:var(--grad);margin-bottom:16px
-  }
-  .step .n::before{content:counter(s)}
-  .step h3{font-size:18px;font-weight:700;margin-bottom:8px}
-  .step p{margin:0;color:var(--muted);font-size:15px}
-
-  /* ---- trust strip ---- */
-  .trust{display:grid;grid-template-columns:1fr;gap:14px}
-  @media(min-width:720px){.trust{grid-template-columns:repeat(3,1fr)}}
-  .trust .t{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:18px 18px;background:rgba(255,255,255,.02)}
-  .trust .t svg{flex:none;margin-top:2px}
-  .trust .t b{display:block;font-size:15.5px}
-  .trust .t span{color:var(--muted);font-size:13.5px}
-
-  /* ---- footer ---- */
-  footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted-2);font-size:13.5px}
-  .foot-in{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
-  .foot-in .nav-links{flex-wrap:wrap}
-  .foot-in a{color:var(--muted);text-decoration:none}
-  .foot-in a:hover{color:var(--ink)}
-  .disc{margin-top:16px;max-width:70ch;color:var(--muted-2);font-size:12px;line-height:1.5}
-
-  /* ---- screenshot carousel ---- */
-  .shots-head{text-align:center;max-width:60ch;margin:0 auto 22px}
-  .shots-head h2{font-size:clamp(24px,3.4vw,32px);font-weight:800}
-  .shot-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 22px}
+  /* ---- screens carousel: sized by the screen's height ---- */
+  .shot-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto clamp(10px,2vh,18px)}
   .shot-tabs button{
-    font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
-    padding:7px 14px;border-radius:999px;border:1px solid var(--line-strong);
-    background:rgba(255,255,255,.02);color:var(--muted);
-    transition:background .18s ease,border-color .18s ease,color .18s ease
+    font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;height:34px;padding:0 15px;border-radius:999px;border:0;
+    background:var(--surface-2);color:var(--muted);transition:background .18s ease,color .18s ease
   }
-  .shot-tabs button:hover{border-color:var(--blue);color:var(--ink)}
-  .shot-tabs button.on{background:var(--grad);border-color:transparent;color:#08122b}
-  .carousel{position:relative;max-width:980px;margin:0 auto}
-  .frame{
-    border:1px solid var(--line-strong);border-radius:16px;overflow:hidden;
-    background:linear-gradient(180deg,#10162c,#0c1122);
-    box-shadow:0 30px 70px -30px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.04);
-  }
-  .frame-bar{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid var(--line)}
-  .frame-bar i{width:11px;height:11px;border-radius:50%;background:#2a3352;display:block}
-  .frame-bar .url{margin-left:10px;font-size:12px;color:var(--muted-2)}
-  .track{position:relative;aspect-ratio:16/10;background:#0d1226}
+  .shot-tabs button:hover{color:var(--ink);background:rgba(122,162,255,.14)}
+  .shot-tabs button.on{background:var(--brand);color:#fff}
+  .carousel{position:relative;margin:0 auto;width:min(100%, 1040px, calc((100dvh - var(--bar-h) - 240px) * 1.6))}
+  .frame{border-radius:16px;overflow:hidden;background:#0d1226;box-shadow:0 30px 70px -30px rgba(0,0,0,.7), 0 0 0 1px var(--line)}
+  .track{position:relative;aspect-ratio:16/10}
   .slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
   .slide.on{opacity:1}
   .slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-  .cap{
-    position:absolute;left:0;right:0;bottom:0;padding:14px 18px;
-    background:linear-gradient(180deg,transparent,rgba(6,10,22,.85));
-    font-size:13.5px;font-weight:600;color:#e7ecfb
-  }
+  .cap{text-align:center;margin-top:clamp(8px,1.6vh,14px);font-size:clamp(14px,2vh,16px);color:var(--muted);min-height:1.5em}
   .arrow{
     position:absolute;top:50%;transform:translateY(-50%);z-index:3;
-    width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);
-    background:rgba(11,16,32,.7);backdrop-filter:blur(6px);color:var(--ink);
-    display:grid;place-items:center;cursor:pointer
+    width:40px;height:40px;border-radius:50%;border:0;
+    background:rgba(11,16,32,.72);backdrop-filter:blur(6px);color:#eef2fb;
+    display:grid;place-items:center;cursor:pointer;transition:background .18s ease
   }
-  .arrow:hover{border-color:var(--blue);background:rgba(122,162,255,.14)}
-  .arrow.prev{left:-8px}
-  .arrow.next{right:-8px}
+  .arrow:hover{background:rgba(30,136,229,.75)}
+  .arrow.prev{left:12px}
+  .arrow.next{right:12px}
   @media(max-width:640px){.arrow{display:none}}
 
-  /* ---- theme toggle ---- */
-  .theme-toggle{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:36px;height:36px;border-radius:10px;cursor:pointer;
-    border:1px solid var(--line-strong);background:rgba(255,255,255,.03);
-    color:var(--muted);transition:color .18s ease, border-color .18s ease, background .18s ease;
+  /* ---- features ---- */
+  .feats{display:grid;gap:clamp(10px,1.4vw,16px);grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media(max-width:940px){.feats{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.feats{grid-template-columns:1fr}}
+  .feat{
+    display:flex;gap:14px;align-items:flex-start;border-radius:var(--r);
+    padding:clamp(12px,2.4vh,24px) clamp(14px,1.5vw,22px);background:var(--surface);
+    transition:background .18s ease
   }
-  .theme-toggle:hover{color:var(--ink);border-color:var(--blue);background:rgba(122,162,255,.08)}
-  .theme-toggle .i-sun{display:none}
-  .theme-toggle .i-moon{display:block}
-  :root[data-theme="light"] .theme-toggle .i-sun{display:block}
-  :root[data-theme="light"] .theme-toggle .i-moon{display:none}
+  .feat:hover{background:var(--surface-2)}
+  .ico{width:clamp(38px,5.4vh,46px);height:clamp(38px,5.4vh,46px);border-radius:12px;display:grid;place-items:center;flex:none;background:rgba(92,210,193,.12);color:var(--teal)}
+  .feat h3{font-size:clamp(15.5px,2.3vh,18px);font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+  .feat p{margin:0;color:var(--muted);font-size:clamp(14px,2vh,15.5px)}
+  .new{display:inline-flex;align-items:center;height:20px;padding:0 8px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--brand);border-radius:999px}
+  .swatches{display:inline-flex;gap:4px}
+  .swatches i{width:10px;height:10px;border-radius:3px;display:block}
+
+  /* ---- privacy + footer (last screen; footer pinned to its bottom, rule 5) ---- */
+  .last > .wrap{flex:1}
+  .band{border-radius:22px;padding:clamp(22px,4.4vh,44px) clamp(20px,3vw,44px);background:linear-gradient(180deg,rgba(122,162,255,.08),rgba(92,210,193,.04));margin-block:auto}
+  .band h2{font-size:clamp(22px,min(3.8vh,7vw),32px);font-weight:800;max-width:26ch}
+  .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(16px,3vh,26px)}
+  @media(max-width:760px){.trust{grid-template-columns:1fr}}
+  .trust .t{display:flex;gap:13px;align-items:flex-start;border-radius:14px;padding:16px;background:var(--surface)}
+  .trust .t svg{flex:none;margin-top:2px}
+  .trust .t b{display:block;font-size:15.5px}
+  .trust .t span{color:var(--muted);font-size:13.5px}
+  footer{margin-top:clamp(20px,4vh,40px);color:var(--muted-2);font-size:13.5px}
+  .foot-in{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .foot-in nav{display:flex;flex-wrap:wrap;gap:18px}
+  .foot-in a{color:var(--muted);text-decoration:none}
+  .foot-in a:hover{color:var(--ink)}
+  .disc{margin:12px 0 0;max-width:80ch;color:var(--muted-2);font-size:12px;line-height:1.5}
 
   /* ================= LIGHT THEME ================= */
   :root[data-theme="light"]{
     --navy:#eef1f9;
-    --navy-2:#e4e9f5;
     --card:#ffffff;
-    --card-2:#f4f7fd;
-    --line:rgba(24,34,84,.12);
-    --line-strong:rgba(24,34,84,.20);
+    --surface:#ffffff;
+    --surface-2:#f4f6fc;
+    --line:rgba(24,34,84,.10);
+    --line-strong:rgba(24,34,84,.18);
     --ink:#141a33;
     --muted:#525b80;
     --muted-2:#727b9c;
@@ -341,330 +320,262 @@
       var(--navy);
   }
   :root[data-theme="light"] .grad-text{background:linear-gradient(120deg,#2f54e0 0%,#0b9a8d 100%);-webkit-background-clip:text;background-clip:text}
-  :root[data-theme="light"] header.nav{background:rgba(238,241,249,.82)}
-  :root[data-theme="light"] .theme-toggle{background:rgba(24,34,84,.03)}
-  :root[data-theme="light"] .theme-toggle:hover{background:rgba(47,84,224,.08)}
-  :root[data-theme="light"] .pill{background:#ffffff}
-  :root[data-theme="light"] .btn-ghost{background:#ffffff;color:var(--ink)}
-  :root[data-theme="light"] .btn-ghost:hover{background:rgba(47,84,224,.06)}
-  :root[data-theme="light"] .btn-primary{box-shadow:0 8px 22px rgba(11,154,141,.28)}
-  :root[data-theme="light"] .card,
-  :root[data-theme="light"] .way{background:linear-gradient(180deg,#ffffff,#f7f9fe);box-shadow:0 1px 2px rgba(24,34,84,.04)}
-  :root[data-theme="light"] .card:hover{background:#ffffff;box-shadow:0 6px 20px rgba(24,34,84,.08)}
+  :root[data-theme="light"] .topbar{background:rgba(238,241,249,.82)}
+  :root[data-theme="light"] .panel{background:#ffffff;box-shadow:0 20px 40px -24px rgba(24,34,84,.35), inset 0 0 0 1px var(--line)}
+  :root[data-theme="light"] .scol,
+  :root[data-theme="light"] .co-row,
+  :root[data-theme="light"] .way-art{background:#f4f6fc}
+  :root[data-theme="light"] .way,
+  :root[data-theme="light"] .feat,
+  :root[data-theme="light"] .trust .t{box-shadow:0 1px 2px rgba(24,34,84,.05)}
   :root[data-theme="light"] .band{background:linear-gradient(180deg,#ffffff,#f5f8fe)}
-  :root[data-theme="light"] .step{background:#ffffff;box-shadow:0 1px 2px rgba(24,34,84,.04)}
-  :root[data-theme="light"] .trust .t{background:#ffffff}
-  :root[data-theme="light"] .shot-tabs button:not(.on){background:#ffffff}
-  :root[data-theme="light"] .frame{background:#ffffff}
-  :root[data-theme="light"] .frame-bar i{background:#c8d0e6}
-  :root[data-theme="light"] .track{background:#f4f6fb}
-  :root[data-theme="light"] .mock{background:linear-gradient(180deg,#ffffff,#f6f8fe)}
-  :root[data-theme="light"] .mcol{background:#ffffff}
-  :root[data-theme="light"] .mrow.on{background:rgba(47,84,224,.09)}
+  :root[data-theme="light"] .frame{background:#f4f6fb}
 </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#top">
-      <img src="assets/logo.svg" alt="DocLa logo" />
+<header class="topbar">
+  <div class="wrap bar-in">
+    <a class="brand" href="#top" aria-label="DocLa — back to top">
+      <img src="assets/logo.svg" alt="" />
       <span>DocLa</span>
     </a>
-    <nav class="nav-links">
+    <nav class="nav" aria-label="Sections">
       <a href="#search">Search</a>
       <a href="#screens">Screens</a>
       <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" title="Switch theme">
-        <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a7 7 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      </button>
-      <a class="btn btn-primary btn-sm" href="https://chromewebstore.google.com/detail/doctor-lanka-%E2%80%94-echannelli/mffhilimciffjoeghenlopeehocimanh" target="_blank" rel="noopener">Get DocLa</a>
+      <a href="#privacy">Privacy</a>
     </nav>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" title="Switch theme">
+      <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a7 7 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    </button>
+    <a class="cta" href="https://chromewebstore.google.com/detail/doctor-lanka-%E2%80%94-echannelli/mffhilimciffjoeghenlopeehocimanh" target="_blank" rel="noopener" title="Add DocLa to Chrome — free">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="2.2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="m9 15 2 2 4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="long">Book doctors faster</span><span class="short">Book faster</span>
+    </a>
   </div>
 </header>
 
-<a id="top"></a>
+<main id="home">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="pill"><span class="dot"></span> New · <b>three-way search</b> &amp; My appointments</span>
+  <!-- HERO: search → week → official checkout -->
+  <section class="group hero" id="top" data-solo>
+    <div class="wrap">
+      <span class="pill"><span class="dot"></span> Free Chrome extension · <b>new three-way search</b></span>
       <h1 class="title">Book Sri Lankan doctors <span class="grad-text">in a few clicks</span>.</h1>
-      <p class="lead">Start from a hospital, a doctor or a specialty. See up to three doctors' week on one calendar, then pay on the official site.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/doctor-lanka-%E2%80%94-echannelli/mffhilimciffjoeghenlopeehocimanh" target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke="#08122b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="#08122b" stroke-width="2.2" stroke-linecap="round"/></svg>
-          Add to Chrome
-        </a>
-        <a class="btn btn-ghost" href="#screens">See the screens</a>
-      </div>
-      <p class="microcopy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#7f89a8" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#5cd2c1" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Free · no sign-up · payment stays on the official site
-      </p>
-    </div>
+      <p class="lead">Start from a hospital, a doctor or a specialty. See three doctors' week at once, then pay on the official site.</p>
 
-    <!-- three-column search mock -->
-    <div class="mock" role="img" aria-label="A mock of DocLa's Search screen: three columns — Hospital first, Doctor first and Specialty first. Nawaloka and Cardiologist are ticked, the doctor list has narrowed to match, and three doctors are picked ready to view availability.">
-      <div class="mock-bar">
-        <span class="mock-tabs">
-          <span class="mock-tab on"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2.6"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>Search</span>
-          <span class="mock-tab"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2.4"/><path d="M3 10h18" stroke="currentColor" stroke-width="2.4"/></svg>Calendar</span>
-        </span>
-        <span class="sd" title="Connected"></span>
-      </div>
-      <div class="mcols">
-        <div class="mcol">
-          <div class="mhead"><span class="mi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 9v6M9 12h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><div><b>Hospital</b><span>where to go</span></div><span class="n">27</span></div>
-          <div class="mrow on"><span class="cb"></span><span class="t">Nawaloka <i>· Col 02</i></span><span class="c">3</span></div>
-          <div class="mrow"><span class="cb"></span><span class="t">Durdans <i>· Col 03</i></span><span class="c">3</span></div>
-          <div class="mrow"><span class="cb"></span><span class="t">Asiri Central</span><span class="c">2</span></div>
-          <div class="mrow"><span class="cb"></span><span class="t">Ceymed <i>· Nugegoda</i></span><span class="c">2</span></div>
-          <div class="mrow dim"><span class="cb"></span><span class="t">Medihelp <i>· Moratuwa</i></span><span class="c">2</span></div>
+      <div class="flow" role="img" aria-label="How DocLa works: 1, tick a hospital, doctors and a specialty in three search columns; 2, see those doctors' sessions for the week, one colour each; 3, land on the official checkout with the slot and patient filled in, and the booking saved to My appointments.">
+        <div class="stage">
+          <div class="stage-cap"><span class="num">1</span>Search three ways</div>
+          <div class="panel">
+            <div class="scols">
+              <div class="scol">
+                <div class="shead"><span class="mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 9v6M9 12h6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>Hospital</div>
+                <div class="srow on"><i class="cb"></i><span>Nawaloka</span></div>
+                <div class="srow"><i class="cb"></i><span>Durdans</span></div>
+                <div class="srow"><i class="cb"></i><span>Asiri</span></div>
+                <div class="srow"><i class="cb"></i><span>Lanka</span></div>
+              </div>
+              <div class="scol">
+                <div class="shead"><span class="mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2.4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>Doctor</div>
+                <div class="srow on"><i class="cb"></i><span>Dr Perera</span></div>
+                <div class="srow on"><i class="cb"></i><span>Dr de Silva</span></div>
+                <div class="srow on"><i class="cb"></i><span>Dr Fernando</span></div>
+                <div class="srow"><i class="cb"></i><span>Dr Jayasinghe</span></div>
+              </div>
+              <div class="scol">
+                <div class="shead"><span class="mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 3v6a5 5 0 0 0 10 0V3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 14v2a4 4 0 0 0 8 0v-2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="2.4"/></svg></span>Specialty</div>
+                <div class="srow on"><i class="cb"></i><span>Cardiologist</span></div>
+                <div class="srow"><i class="cb"></i><span>Surgeon</span></div>
+                <div class="srow"><i class="cb"></i><span>Physician</span></div>
+                <div class="srow"><i class="cb"></i><span>Paediatrician</span></div>
+              </div>
+            </div>
+            <div class="sfoot"><span><b>3</b> doctors picked</span><span class="chip ok">View week</span></div>
+          </div>
         </div>
-        <div class="mcol">
-          <div class="mhead"><span class="mi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2.2"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><div><b>Doctor</b><span>who to see</span></div><span class="n">68</span></div>
-          <div class="mrow on"><span class="cb"></span><span class="av"></span><span class="t">Dr N. Perera</span></div>
-          <div class="mrow on"><span class="cb"></span><span class="av"></span><span class="t">Dr S. de Silva</span></div>
-          <div class="mrow on"><span class="cb"></span><span class="av"></span><span class="t">Dr K. Fernando</span></div>
-          <div class="mrow"><span class="cb"></span><span class="av f"></span><span class="t">Dr R. Jayasinghe</span></div>
-          <div class="mrow dim"><span class="cb"></span><span class="av"></span><span class="t">Dr P. Wickrama</span></div>
-        </div>
-        <div class="mcol">
-          <div class="mhead"><span class="mi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6 3v6a5 5 0 0 0 10 0V3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M11 14v2a4 4 0 0 0 8 0v-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="2.2"/></svg></span><div><b>Specialty</b><span>what I need</span></div><span class="n">148</span></div>
-          <div class="mrow on"><span class="cb"></span><span class="t">Cardiologist</span><span class="c">68</span></div>
-          <div class="mrow"><span class="cb"></span><span class="t">Surgeon</span><span class="c">79</span></div>
-          <div class="mrow"><span class="cb"></span><span class="t">Physician</span><span class="c">75</span></div>
-          <div class="mrow"><span class="cb"></span><span class="t">Gynaecologist</span><span class="c">59</span></div>
-          <div class="mrow dim"><span class="cb"></span><span class="t">Paediatrician</span><span class="c">40</span></div>
-        </div>
-      </div>
-      <div class="mfoot">
-        <span><b>1</b> hospital · <b>3</b> doctors · <b>1</b> specialty</span>
-        <span class="mgo"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="2.6"/></svg>View availability</span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- THREE WAYS -->
-<section id="search" style="padding-top:40px">
-  <div class="wrap">
-    <div class="section-head center">
-      <span class="eyebrow">Search</span>
-      <h2>Start from what you know</h2>
-    </div>
-    <div class="ways">
-      <div class="way">
-        <div class="wi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v6M9 12h6M2 21h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-        <h3>Hospital first</h3>
-        <p class="q">“I know where to go.”</p>
-        <p>Pick a hospital or a town. You get its doctors and specialties.</p>
-      </div>
-      <div class="way">
-        <div class="wi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-        <h3>Doctor first</h3>
-        <p class="q">“I know who to see.”</p>
-        <p>Type a name. You get every hospital that doctor visits.</p>
-      </div>
-      <div class="way">
-        <div class="wi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3v6a5 5 0 0 0 10 0V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M11 14v2a4 4 0 0 0 8 0v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/></svg></div>
-        <h3>Specialty first</h3>
-        <p class="q">“I know what I need.”</p>
-        <p>Pick a specialty. You get every doctor who has it and where they sit.</p>
-      </div>
-    </div>
-    <p class="ways-note">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      Each column narrows the other two. Pick up to three doctors, then open the calendar.
-    </p>
-  </div>
-</section>
+        <div class="flow-arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 
-<!-- SCREENS -->
-<section id="screens" style="padding-top:30px">
-  <div class="wrap">
-    <div class="shots-head">
-      <span class="eyebrow" style="justify-content:center">See it in action</span>
-      <h2>The extension, screen by screen</h2>
-    </div>
-    <div class="shot-tabs" id="shotTabs" role="tablist" aria-label="Screens"></div>
-    <div class="carousel" id="carousel">
-      <button class="arrow prev" id="prev" aria-label="Previous screenshot">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button class="arrow next" id="next" aria-label="Next screenshot">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="frame">
-        <div class="frame-bar"><i></i><i></i><i></i><span class="url">DocLa</span></div>
-        <div class="track" id="track"><!-- slides injected by JS --></div>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="stage">
+          <div class="stage-cap"><span class="num">2</span>Compare their week</div>
+          <div class="panel">
+            <div class="tabs"><span class="chip o">Perera</span><span class="chip b">de Silva</span><span class="chip g">Fernando</span></div>
+            <div class="week">
+              <span class="d">THU</span><span class="d">FRI</span><span class="d">SAT</span><span class="d">SUN</span>
+              <span class="chip o">9:00</span><span class="chip g">7:00</span><span class="chip o">9:00</span><span class="chip b">8:30</span>
+              <span class="chip b">16:00</span><span class="chip g">15:00</span><span class="chip g">12:00</span><span class="chip g">10:00</span>
+              <span class="chip g">18:00</span><span class="chip b">19:00</span><span class="chip b">16:00</span><span class="chip o">17:30</span>
+            </div>
+          </div>
+        </div>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Features</span>
-      <h2>Everything on one screen, then straight to checkout</h2>
-    </div>
-    <div class="grid cols-3">
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="9.5" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="16" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg>
-        </div>
-        <h3>Search three ways <span class="new">New</span></h3>
-        <p>Hospital, doctor or specialty. Each one narrows the others.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="6" y="12" width="4" height="3" rx=".8" fill="#fb923c"/><rect x="11" y="12" width="4" height="3" rx=".8" fill="#38bdf8"/><rect x="11" y="16.5" width="4" height="3" rx=".8" fill="#4ade80"/></svg>
-        </div>
-        <h3>Three doctors, one week <span class="swatches" aria-hidden="true"><i style="background:var(--doc1)"></i><i style="background:var(--doc2)"></i><i style="background:var(--doc3)"></i></span></h3>
-        <p>Every session on one calendar, each doctor in their own colour.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="12" r="6" stroke="currentColor" stroke-width="1.8"/><circle cx="15" cy="12" r="6" stroke="currentColor" stroke-width="1.8"/></svg>
-        </div>
-        <h3>Common time finder</h3>
-        <p>Shows when all your doctors sit at the same hospital on the same day.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 13 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <h3>Your hospitals first</h3>
-        <p>The hospitals you picked are ticked. Their other hospitals are one tick away.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-        </div>
-        <h3>Favourites</h3>
-        <p>Star the hospitals, doctors and specialties you use. They stay at the top.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m9 14.5 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <h3>My appointments <span class="new">New</span></h3>
-        <p>Bookings save themselves after payment, with the receipt and official PDF.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 20c0-3.3 2.9-6 6.5-6s6.5 2.7 6.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="9" r="2.7" stroke="currentColor" stroke-width="1.8"/><path d="M17 14c2.6 0 4.5 2 4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>The whole family, pre-filled</h3>
-        <p>Save several patients. The default one fills the form; switch in one click.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l5 5v15H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Look up a booking</h3>
-        <p>Paste a reference number or URL to pull up the receipt.</p>
-      </div>
-      <div class="card">
-        <div class="ico gain" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2.5-6 4 12 2.5-6H21" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <h3>Live connection check</h3>
-        <p>A green dot means the booking service is answering. If not, DocLa says so.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="flow-arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 
-<!-- HOW IT WORKS -->
-<section id="how">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">How it works</span>
-      <h2>Four steps, one payment page</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="n" aria-hidden="true"></div>
-        <h3>Search</h3>
-        <p>Tick a hospital, doctor or specialty. Pick up to three doctors.</p>
-      </div>
-      <div class="step">
-        <div class="n" aria-hidden="true"></div>
-        <h3>Compare</h3>
-        <p>Read their whole week, colour by colour, and click a slot.</p>
-      </div>
-      <div class="step">
-        <div class="n" aria-hidden="true"></div>
-        <h3>Pay officially</h3>
-        <p>Land on the official checkout with the slot and patient filled in.</p>
-      </div>
-      <div class="step">
-        <div class="n" aria-hidden="true"></div>
-        <h3>Keep it</h3>
-        <p>The booking appears in My appointments with its receipt.</p>
+        <div class="stage">
+          <div class="stage-cap"><span class="num">3</span>Pay on the official site</div>
+          <div class="panel">
+            <div class="co-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2.2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2.2"/></svg>Official checkout</div>
+            <div class="co-row"><span>Slot</span><b>Fri 18:00 · Nawaloka</b></div>
+            <div class="co-row"><span>Patient</span><b>Nimal Perera</b></div>
+            <div class="co-row"><span>NIC</span><b>••••••5678</b></div>
+            <div class="co-pay"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5 9-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Saved to My appointments</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PRIVACY -->
-<section id="privacy" style="padding-top:14px">
-  <div class="wrap">
-    <div class="band">
-      <span class="eyebrow">Privacy</span>
-      <h2 style="font-size:clamp(22px,3vw,30px);font-weight:800;max-width:24ch">No account, no server, nothing to collect.</h2>
-      <p class="lead" style="margin-top:14px">Patients, saved bookings and favourites live only in your browser. They go to the official booking site only when you book.</p>
-      <div class="trust" style="margin-top:24px">
-        <div class="t">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#5cd2c1" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#5cd2c1" stroke-width="1.7"/></svg>
-          <div><b>Stays on your device</b><span>Stored in Chrome's local storage, never uploaded to us.</span></div>
+  <!-- SEARCH THREE WAYS -->
+  <section class="group" id="search">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">Search</span><h2>Start from what you know</h2></div>
+        <p>Each column narrows the other two. Pick up to three doctors, then open the calendar.</p>
+      </div>
+      <div class="ways">
+        <div class="way">
+          <div class="wi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v6M9 12h6M2 21h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Hospital first</h3>
+          <p class="q">“I know where to go.”</p>
+          <div class="way-art" aria-hidden="true"><div class="srow on"><i class="cb"></i><span>Nawaloka · Colombo 02</span></div><div class="srow"><i class="cb"></i><span>Durdans · Colombo 03</span></div><div class="srow"><i class="cb"></i><span>Asiri Central · Colombo 10</span></div></div>
+          <div class="way-out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Its doctors and specialties</div>
         </div>
-        <div class="t">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#7aa2ff" stroke-width="1.7"/><path d="M15 9l-6 6M9 9l6 6" stroke="#7aa2ff" stroke-width="1.7" stroke-linecap="round"/></svg>
-          <div><b>No tracking</b><span>No analytics, no ads, no data sold.</span></div>
+        <div class="way">
+          <div class="wi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Doctor first</h3>
+          <p class="q">“I know who to see.”</p>
+          <div class="way-art" aria-hidden="true"><div class="srow on"><i class="cb"></i><span>Dr N. Perera</span></div><div class="srow"><i class="cb"></i><span>Dr S. de Silva</span></div><div class="srow"><i class="cb"></i><span>Dr K. Fernando</span></div></div>
+          <div class="way-out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Every hospital they visit</div>
         </div>
-        <div class="t">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#fbbf24" stroke-width="1.7" stroke-linejoin="round"/></svg>
-          <div><b>Payment stays official</b><span>Money only changes hands on the provider's own checkout.</span></div>
+        <div class="way">
+          <div class="wi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3v6a5 5 0 0 0 10 0V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M11 14v2a4 4 0 0 0 8 0v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <h3>Specialty first</h3>
+          <p class="q">“I know what I need.”</p>
+          <div class="way-art" aria-hidden="true"><div class="srow on"><i class="cb"></i><span>Cardiologist</span></div><div class="srow"><i class="cb"></i><span>Surgeon</span></div><div class="srow"><i class="cb"></i><span>Physician</span></div></div>
+          <div class="way-out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Every doctor with it, and where</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="wrap">
-    <div class="foot-in">
-      <a class="brand" href="#top" style="font-size:15px">
-        <img src="assets/logo.svg" alt="" width="24" height="24" style="border-radius:6px" />
-        <span>DocLa</span>
-      </a>
-      <nav class="nav-links" style="gap:20px">
-        <a href="#search">Search</a>
-        <a href="#screens">Screens</a>
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="https://chromewebstore.google.com/detail/doctor-lanka-%E2%80%94-echannelli/mffhilimciffjoeghenlopeehocimanh" target="_blank" rel="noopener">Get it</a>
-      </nav>
+  <!-- SCREENS -->
+  <section class="group" id="screens">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">See it in action</span><h2>The extension, screen by screen</h2></div>
+        <div class="shot-tabs" id="shotTabs" role="tablist" aria-label="Screens" style="margin:0"></div>
+      </div>
+      <div class="carousel" id="carousel">
+        <button class="arrow prev" id="prev" type="button" aria-label="Previous screenshot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="arrow next" id="next" type="button" aria-label="Next screenshot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="frame"><div class="track" id="track"></div></div>
+        <p class="cap" id="cap" aria-live="polite"></p>
+      </div>
     </div>
-    <p class="disc">DocLa (formerly Doctor Lanka) is an independent companion tool that provides a faster interface — a "wrapper" — over Sri Lanka's public doctor-channelling service. It is not affiliated with, endorsed by, or operated by any booking provider, and all appointments and payments are completed on the provider's own official site. In limited early release.</p>
-  </div>
-</footer>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="group" id="features">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">Features</span><h2>Everything on one screen</h2></div>
+        <p>Pick the slot here, then go straight to checkout.</p>
+      </div>
+      <div class="feats">
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="9.5" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="16" y="4" width="5" height="16" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <div><h3>Search three ways <span class="new">New</span></h3><p>Hospital, doctor or specialty. Each narrows the others.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="6" y="12" width="4" height="3" rx=".8" fill="#fb923c"/><rect x="11" y="12" width="4" height="3" rx=".8" fill="#38bdf8"/><rect x="11" y="16.5" width="4" height="3" rx=".8" fill="#4ade80"/></svg></div>
+          <div><h3>Three doctors, one week <span class="swatches" aria-hidden="true"><i style="background:var(--doc1)"></i><i style="background:var(--doc2)"></i><i style="background:var(--doc3)"></i></span></h3><p>Every session on one calendar, one colour per doctor.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="12" r="6" stroke="currentColor" stroke-width="1.8"/><circle cx="15" cy="12" r="6" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <div><h3>Common time finder</h3><p>When all your doctors sit at one hospital on one day.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 13 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h3>Your hospitals first</h3><p>Picked hospitals are ticked; the rest are one tick away.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <div><h3>Favourites</h3><p>Star hospitals, doctors and specialties; they stay on top.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m9 14.5 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h3>My appointments <span class="new">New</span></h3><p>Saved after payment, with receipt and official PDF.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 20c0-3.3 2.9-6 6.5-6s6.5 2.7 6.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="9" r="2.7" stroke="currentColor" stroke-width="1.8"/><path d="M17 14c2.6 0 4.5 2 4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div><h3>The whole family</h3><p>Save several patients; the default one fills the form.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M6 2h9l5 5v15H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div><h3>Look up a booking</h3><p>Paste a reference or URL to see the receipt.</p></div>
+        </div>
+        <div class="feat">
+          <div class="ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2.5-6 4 12 2.5-6H21" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h3>Live connection check</h3><p>A green dot when the booking service answers.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY + FOOTER (last screen) -->
+  <section class="group last" id="privacy">
+    <div class="wrap">
+      <div class="band">
+        <div class="head" style="margin-bottom:0">
+          <div><span class="eyebrow">Privacy</span><h2>No account, no server, nothing to collect.</h2></div>
+          <p>Patients, saved bookings and favourites live only in your browser. They go to the official booking site only when you book.</p>
+        </div>
+        <div class="trust">
+          <div class="t">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#5cd2c1" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#5cd2c1" stroke-width="1.7"/></svg>
+            <div><b>Stays on your device</b><span>Chrome's local storage, never uploaded to us.</span></div>
+          </div>
+          <div class="t">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#7aa2ff" stroke-width="1.7"/><path d="M15 9l-6 6M9 9l6 6" stroke="#7aa2ff" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <div><b>No tracking</b><span>No analytics, no ads, no data sold.</span></div>
+          </div>
+          <div class="t">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="#fbbf24" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            <div><b>Payment stays official</b><span>Money only changes hands on the provider's checkout.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="foot-in">
+          <a class="brand" href="#top" style="font-size:15px">
+            <img src="assets/logo.svg" alt="" width="24" height="24" style="width:24px;height:24px;border-radius:6px" />
+            <span>DocLa</span>
+          </a>
+          <nav aria-label="Footer">
+            <a href="#search">Search</a>
+            <a href="#screens">Screens</a>
+            <a href="#features">Features</a>
+            <a href="/privacy">Privacy Policy</a>
+          </nav>
+        </div>
+        <p class="disc">DocLa (formerly Doctor Lanka) is an independent companion tool — a faster interface over Sri Lanka's public doctor-channelling service. It is not affiliated with, endorsed by, or operated by any booking provider; all appointments and payments complete on the provider's own official site. In limited early release.</p>
+      </footer>
+    </div>
+  </section>
+</main>
 
 <script>
-  /* ------------------------------------------------------------------
-     Screenshot carousel. Each shot exists twice — assets/screenshots/
-     dark/ and light/ — and the page shows the set matching its theme.
-     Captured from the real extension at 1600×1000 (16:10).
-  ------------------------------------------------------------------ */
+  var theme = function () { return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark"; };
+
+  /* ---- screenshot carousel: dark/ and light/ sets follow the page theme ---- */
   var SHOTS = [
     { file: "02-search.png",       tab: "Search",          cap: "Three columns: hospital, doctor, specialty — each narrows the others" },
     { file: "03-calendar.png",     tab: "Calendar",        cap: "Three doctors' week on one calendar, one colour per doctor" },
@@ -672,93 +583,155 @@
     { file: "06-settings.png",     tab: "Patients",        cap: "Several patients; the starred one fills the booking form" },
     { file: "07-status.png",       tab: "Status",          cap: "A live self test of every service the calendar needs" }
   ];
-
-  var theme = function () { return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark"; };
-
   (function () {
     var track = document.getElementById("track");
     var tabsEl = document.getElementById("shotTabs");
-    if (!track) return;
-
+    var capEl = document.getElementById("cap");
     var imgs = [];
     SHOTS.forEach(function (s, i) {
       var slide = document.createElement("div");
       slide.className = "slide" + (i === 0 ? " on" : "");
       var img = document.createElement("img");
       img.loading = i === 0 ? "eager" : "lazy";
-      img.alt = s.cap;
-      img.width = 1600; img.height = 1000;
-      slide.appendChild(img);
-      imgs.push(img);
-      var cap = document.createElement("div");
-      cap.className = "cap";
-      cap.textContent = s.cap;
-      slide.appendChild(cap);
+      img.alt = s.cap; img.width = 1600; img.height = 1000;
+      slide.appendChild(img); imgs.push(img);
       track.appendChild(slide);
-
       var b = document.createElement("button");
-      b.type = "button";
-      b.className = i === 0 ? "on" : "";
-      b.setAttribute("role", "tab");
+      b.type = "button"; b.className = i === 0 ? "on" : ""; b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", i === 0 ? "true" : "false");
       b.textContent = s.tab;
       b.addEventListener("click", function () { go(i); });
       tabsEl.appendChild(b);
     });
-
-    function paintShots() {
+    window.paintShots = function () {
       var t = theme();
       imgs.forEach(function (img, i) { img.src = "assets/screenshots/" + t + "/" + SHOTS[i].file; });
-    }
-    paintShots();
-    window.paintShots = paintShots;
+    };
+    window.paintShots();
 
-    var slides = track.querySelectorAll(".slide");
-    var tabs = tabsEl.querySelectorAll("button");
+    var slides = track.querySelectorAll(".slide"), tabs = tabsEl.querySelectorAll("button");
     var idx = 0, timer = null, DELAY = 4500;
-
+    capEl.textContent = SHOTS[0].cap;
     function go(n) {
-      slides[idx].classList.remove("on");
-      tabs[idx].classList.remove("on");
-      tabs[idx].setAttribute("aria-selected", "false");
+      slides[idx].classList.remove("on"); tabs[idx].classList.remove("on"); tabs[idx].setAttribute("aria-selected", "false");
       idx = (n + slides.length) % slides.length;
-      slides[idx].classList.add("on");
-      tabs[idx].classList.add("on");
-      tabs[idx].setAttribute("aria-selected", "true");
+      slides[idx].classList.add("on"); tabs[idx].classList.add("on"); tabs[idx].setAttribute("aria-selected", "true");
+      capEl.textContent = SHOTS[idx].cap;
       restart();
     }
-    function restart() {
-      if (timer) clearInterval(timer);
-      if (slides.length > 1) timer = setInterval(function () { go(idx + 1); }, DELAY);
-    }
-
+    function restart() { if (timer) clearInterval(timer); timer = setInterval(function () { go(idx + 1); }, DELAY); }
     document.getElementById("next").addEventListener("click", function () { go(idx + 1); });
     document.getElementById("prev").addEventListener("click", function () { go(idx - 1); });
-
     var carousel = document.getElementById("carousel");
     carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("mouseleave", restart);
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) { if (timer) clearInterval(timer); } else { restart(); }
-    });
-
+    document.addEventListener("visibilitychange", function () { if (document.hidden) { if (timer) clearInterval(timer); } else { restart(); } });
     restart();
   })();
 
   /* ---- theme toggle ---- */
   (function () {
     var root = document.documentElement;
-    var btn = document.getElementById("themeToggle");
     var meta = document.querySelector('meta[name="theme-color"]');
     function paint(t) {
       if (meta) meta.setAttribute("content", t === "light" ? "#eef1f9" : "#0b1020");
       if (window.paintShots) window.paintShots();
     }
     paint(theme());
-    if (btn) btn.addEventListener("click", function () {
+    document.getElementById("themeToggle").addEventListener("click", function () {
       var next = theme() === "light" ? "dark" : "light";
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("dl-theme", next); } catch (e) {}
       paint(next);
+    });
+  })();
+
+  /* ---- screen-fit groups + ↑/↓ paging (rules 1, 2; from ui-ux-style/snippets/screen-fit.js) ---- */
+  (function () {
+    var scroller = document.body;
+    var topbar = document.querySelector(".topbar");
+    var root = document.getElementById("home");
+    var IGNORE = 'input, textarea, select, [role="radiogroup"], [role="slider"], [contenteditable]';
+    function barHeight() { return topbar ? topbar.offsetHeight : 0; }
+    new ResizeObserver(function () {
+      document.documentElement.style.setProperty("--bar-h", barHeight() + "px");
+    }).observe(topbar);
+
+    function layout() {
+      /* hero illustration grows on tall screens, keeping breathing room */
+      var h = scroller.clientHeight - barHeight();
+      /* …but never so far that the panels lose width: zoomed content needs ~1116px */
+      var gut = 2 * Math.min(32, Math.max(16, window.innerWidth * 0.03));
+      var z = window.innerWidth > 900 ? Math.min(1.45, h / 660, (scroller.clientWidth - gut) / 1116) : 1;
+      z = Math.max(1, z);
+      document.documentElement.style.setProperty("--flow-zoom", z.toFixed(3));
+      var groups = Array.prototype.slice.call(root.querySelectorAll(".group"));
+      var avail = scroller.clientHeight - barHeight();
+      groups.forEach(function (g) { g.style.minHeight = ""; });
+      var heights = groups.map(function (g) { return g.getBoundingClientRect().height; });
+      var screens = [], cur = null;
+      groups.forEach(function (g, i) {
+        var solo = g.hasAttribute("data-solo") || (cur && cur.solo);
+        if (cur && !solo && cur.sum + heights[i] <= avail + 1) { cur.items.push(i); cur.sum += heights[i]; }
+        else { cur = { items: [i], sum: heights[i], solo: g.hasAttribute("data-solo") }; screens.push(cur); }
+      });
+      screens.forEach(function (sc) {
+        var extra = Math.max(0, avail - sc.sum) / sc.items.length;
+        sc.items.forEach(function (i, k) {
+          groups[i].style.minHeight = (heights[i] + extra) + "px";
+          groups[i].classList.toggle("screen", k === 0);
+        });
+      });
+    }
+    var raf = 0;
+    function relayout() { cancelAnimationFrame(raf); raf = requestAnimationFrame(layout); }
+    new ResizeObserver(relayout).observe(scroller);
+    if (document.fonts) document.fonts.ready.then(relayout);
+    window.addEventListener("load", relayout);
+    relayout();
+
+    var target = null;
+    scroller.addEventListener("scrollend", function () { target = null; });
+    function stops() {
+      return Array.prototype.map.call(root.querySelectorAll(".screen"), function (s) {
+        return Math.round(s.getBoundingClientRect().top + scroller.scrollTop - barHeight());
+      });
+    }
+    function pageBy(dir) {
+      var pos = target != null ? target : scroller.scrollTop;
+      var step = scroller.clientHeight - barHeight();
+      var max = scroller.scrollHeight - scroller.clientHeight;
+      var s = stops(), dest;
+      if (dir > 0) {
+        var next = s.find(function (t) { return t > pos + 4; });
+        dest = Math.min(next != null ? next : max, pos + step);
+      } else {
+        var prev = s.filter(function (t) { return t < pos - 4; }).pop();
+        dest = Math.max(prev != null ? prev : 0, pos - step);
+      }
+      dest = Math.min(Math.max(dest, 0), max);
+      if (dest === Math.round(pos)) return;
+      target = dest;
+      scroller.scrollTo({ top: dest, behavior: "smooth" });
+    }
+    window.pageBy = pageBy;
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      var t = e.target instanceof Element ? e.target : null;
+      if (t && t.closest(IGNORE)) return;
+      e.preventDefault();
+      pageBy(e.key === "ArrowDown" ? 1 : -1);
+    });
+
+    /* in-page links scroll the body scroller (the window no longer scrolls) */
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var el = document.getElementById(a.getAttribute("href").slice(1));
+      if (!el) return;
+      e.preventDefault();
+      scroller.scrollTo({ top: el.getBoundingClientRect().top + scroller.scrollTop - barHeight(), behavior: "smooth" });
     });
   })();
 </script>
