@@ -247,11 +247,16 @@
   }
   .shot-tabs button:hover{color:var(--ink);background:rgba(122,162,255,.14)}
   .shot-tabs button.on{background:var(--brand);color:#fff}
-  .carousel{position:relative;margin:0 auto;width:min(100%, 1040px, calc((100dvh - var(--bar-h) - 240px) * 1.6))}
+  .shot-tabs button.on2{background:rgba(30,136,229,.18);color:var(--ink)}
+  @media(max-width:760px){.shot-tabs button.on2{background:var(--surface-2);color:var(--muted)}}
+  /* two shots side by side: the current one and the next (wide screens) */
+  .carousel{position:relative;margin:0 auto;width:min(100%, calc((100dvh - var(--bar-h) - 250px) * 3.2 + 28px))}
+  .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,28px)}
+  @media(max-width:760px){.pair{grid-template-columns:1fr}.pane + .pane{display:none}}
   .frame{border-radius:16px;overflow:hidden;background:#0d1226;box-shadow:0 30px 70px -30px rgba(0,0,0,.7), 0 0 0 1px var(--line)}
   .track{position:relative;aspect-ratio:16/10}
-  .slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
-  .slide.on{opacity:1}
+  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+  .slide.on{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s}
   .slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
   .cap{text-align:center;margin-top:clamp(8px,1.6vh,14px);font-size:clamp(14px,2vh,16px);color:var(--muted);min-height:1.5em}
   .arrow{
@@ -261,8 +266,9 @@
     display:grid;place-items:center;cursor:pointer;transition:background .18s ease
   }
   .arrow:hover{background:rgba(30,136,229,.75)}
-  .arrow.prev{left:12px}
-  .arrow.next{right:12px}
+  .arrow.prev{left:-20px}
+  .arrow.next{right:-20px}
+  @media(max-width:1200px){.arrow.prev{left:8px}.arrow.next{right:8px}}
   @media(max-width:640px){.arrow{display:none}}
 
   /* ---- features ---- */
@@ -475,8 +481,10 @@
         <button class="arrow next" id="next" type="button" aria-label="Next screenshot">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="frame"><div class="track" id="track"></div></div>
-        <p class="cap" id="cap" aria-live="polite"></p>
+        <div class="pair" id="pair">
+          <figure class="pane" style="margin:0"><div class="frame"><div class="track"></div></div><figcaption class="cap"></figcaption></figure>
+          <figure class="pane" style="margin:0"><div class="frame"><div class="track"></div></div><figcaption class="cap"></figcaption></figure>
+        </div>
       </div>
     </div>
   </section>
@@ -584,41 +592,49 @@
     { file: "07-status.png",       tab: "Status",          cap: "A live self test of every service the calendar needs" }
   ];
   (function () {
-    var track = document.getElementById("track");
+    var panes = document.querySelectorAll("#pair .pane");
     var tabsEl = document.getElementById("shotTabs");
-    var capEl = document.getElementById("cap");
-    var imgs = [];
-    SHOTS.forEach(function (s, i) {
-      var slide = document.createElement("div");
-      slide.className = "slide" + (i === 0 ? " on" : "");
-      var img = document.createElement("img");
-      img.loading = i === 0 ? "eager" : "lazy";
-      img.alt = s.cap; img.width = 1600; img.height = 1000;
-      slide.appendChild(img); imgs.push(img);
-      track.appendChild(slide);
+    var N = SHOTS.length, imgs = [], slides = [];
+    panes.forEach(function (pane, k) {
+      var track = pane.querySelector(".track");
+      slides[k] = SHOTS.map(function (s, i) {
+        var slide = document.createElement("div");
+        slide.className = "slide";
+        var img = document.createElement("img");
+        img.loading = i < 2 ? "eager" : "lazy";
+        img.alt = s.cap; img.width = 1600; img.height = 1000;
+        slide.appendChild(img); imgs.push([img, s.file]);
+        track.appendChild(slide);
+        return slide;
+      });
+    });
+    var tabs = SHOTS.map(function (s, i) {
       var b = document.createElement("button");
-      b.type = "button"; b.className = i === 0 ? "on" : ""; b.setAttribute("role", "tab");
-      b.setAttribute("aria-selected", i === 0 ? "true" : "false");
-      b.textContent = s.tab;
+      b.type = "button"; b.setAttribute("role", "tab"); b.textContent = s.tab;
       b.addEventListener("click", function () { go(i); });
       tabsEl.appendChild(b);
+      return b;
     });
     window.paintShots = function () {
       var t = theme();
-      imgs.forEach(function (img, i) { img.src = "assets/screenshots/" + t + "/" + SHOTS[i].file; });
+      imgs.forEach(function (x) { x[0].src = "assets/screenshots/" + t + "/" + x[1]; });
     };
     window.paintShots();
 
-    var slides = track.querySelectorAll(".slide"), tabs = tabsEl.querySelectorAll("button");
-    var idx = 0, timer = null, DELAY = 4500;
-    capEl.textContent = SHOTS[0].cap;
-    function go(n) {
-      slides[idx].classList.remove("on"); tabs[idx].classList.remove("on"); tabs[idx].setAttribute("aria-selected", "false");
-      idx = (n + slides.length) % slides.length;
-      slides[idx].classList.add("on"); tabs[idx].classList.add("on"); tabs[idx].setAttribute("aria-selected", "true");
-      capEl.textContent = SHOTS[idx].cap;
-      restart();
+    var idx = 0, timer = null, DELAY = 5000;
+    function show() {
+      panes.forEach(function (pane, k) {
+        var j = (idx + k) % N;
+        slides[k].forEach(function (s, i) { s.classList.toggle("on", i === j); });
+        pane.querySelector(".cap").textContent = SHOTS[j].cap;
+      });
+      tabs.forEach(function (b, i) {
+        b.classList.toggle("on", i === idx);
+        b.classList.toggle("on2", i === (idx + 1) % N);
+        b.setAttribute("aria-selected", i === idx ? "true" : "false");
+      });
     }
+    function go(n) { idx = (n + N) % N; show(); restart(); }
     function restart() { if (timer) clearInterval(timer); timer = setInterval(function () { go(idx + 1); }, DELAY); }
     document.getElementById("next").addEventListener("click", function () { go(idx + 1); });
     document.getElementById("prev").addEventListener("click", function () { go(idx - 1); });
@@ -626,7 +642,7 @@
     carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("mouseleave", restart);
     document.addEventListener("visibilitychange", function () { if (document.hidden) { if (timer) clearInterval(timer); } else { restart(); } });
-    restart();
+    show(); restart();
   })();
 
   /* ---- theme toggle ---- */
