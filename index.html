@@ -291,7 +291,9 @@
   /* ---- privacy + footer (last screen; footer pinned to its bottom, rule 5) ---- */
   .last > .wrap{flex:1}
   .band{border-radius:22px;padding:clamp(22px,4.4vh,44px) clamp(20px,3vw,44px);background:linear-gradient(180deg,rgba(122,162,255,.08),rgba(92,210,193,.04));margin-block:auto}
-  .band h2{font-size:clamp(22px,min(3.8vh,7vw),32px);font-weight:800;max-width:26ch}
+  .band h2{font-size:clamp(22px,min(3.8vh,7vw),32px);font-weight:800}
+  @media(min-width:761px){.band h2{white-space:nowrap}}
+  .band-note{margin:clamp(14px,2.6vh,22px) 0 0;color:var(--muted);font-size:clamp(14.5px,2.1vh,16.5px);text-align:center}
   .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(16px,3vh,26px)}
   @media(max-width:760px){.trust{grid-template-columns:1fr}}
   .trust .t{display:flex;gap:13px;align-items:flex-start;border-radius:14px;padding:16px;background:var(--surface)}
@@ -558,10 +560,8 @@
   <section class="group last" id="privacy">
     <div class="wrap">
       <div class="band">
-        <div class="head" style="margin-bottom:0">
-          <div><span class="eyebrow">Privacy</span><h2>No account, no server, nothing to collect.</h2></div>
-          <p>Patients, saved bookings and favourites live only in your browser. They go to the official booking site only when you book.</p>
-        </div>
+        <span class="eyebrow">Privacy</span>
+        <h2>No account, no server, nothing to collect.</h2>
         <div class="trust">
           <div class="t">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#5cd2c1" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#5cd2c1" stroke-width="1.7"/></svg>
@@ -576,6 +576,7 @@
             <div><b>Payment stays official</b><span>Money only changes hands on the provider's checkout.</span></div>
           </div>
         </div>
+        <p class="band-note">Patients, saved bookings and favourites live only in your browser. They go to the official booking site only when you book.</p>
       </div>
 
       <footer>
