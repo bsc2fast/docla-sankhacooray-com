@@ -1,19 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Hospital-sign palette: clinical blue tile, white cross, red heartbeat. -->
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#7aa2ff"/>
-      <stop offset="100%" stop-color="#5cd2c1"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e88e5"/>
+      <stop offset="100%" stop-color="#1257b8"/>
     </linearGradient>
   </defs>
-  <rect width="512" height="512" rx="96" fill="#0b1020"/>
+  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
   <!-- medical cross -->
-  <rect x="208" y="80"  width="96"  height="352" rx="28" fill="url(#g)"/>
-  <rect x="80"  y="208" width="352" height="96"  rx="28" fill="url(#g)"/>
-  <!-- heartbeat (ECG) line cutting across the cross -->
-  <path d="M64 256 H168 L196 200 L228 312 L256 232 L284 296 L316 256 H448"
-        fill="none" stroke="#0b1020" stroke-width="22"
+  <rect x="196" y="72"  width="120" height="368" rx="30" fill="#ffffff"/>
+  <rect x="72"  y="196" width="368" height="120" rx="30" fill="#ffffff"/>
+  <!-- heartbeat (ECG): white halo keeps it readable where it leaves the cross -->
+  <path d="M40 256 H170 L200 192 L236 324 L268 216 L294 288 L318 256 H472"
+        fill="none" stroke="#ffffff" stroke-width="44"
         stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M64 256 H168 L196 200 L228 312 L256 232 L284 296 L316 256 H448"
-        fill="none" stroke="#fbbf24" stroke-width="12"
+  <path d="M40 256 H170 L200 192 L236 324 L268 216 L294 288 L318 256 H472"
+        fill="none" stroke="#e53935" stroke-width="22"
         stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

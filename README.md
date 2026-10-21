@@ -1,39 +1,39 @@
-# Doctor Lanka — landing page
+# DocLa — landing page
 
-The public product page for **Doctor Lanka**, a free Chrome extension that puts a
-fast weekly calendar over Sri Lanka's [eChannelling](https://www.echannelling.com).
-Compare doctors, hospitals and times at a glance — then check out on the official
-site as usual.
+The public product page for **DocLa** (formerly Doctor Lanka), a free Chrome
+extension for Sri Lanka's [eChannelling](https://www.echannelling.com).
+Find a doctor by hospital, doctor or specialty, compare a week of sessions,
+then check out on the official site as usual.
 
 **Live:** https://docla.sankhacooray.com/ (privacy policy: https://docla.sankhacooray.com/privacy)
 
 This repo is just the marketing/landing page (a single static `index.html`). The
-extension itself lives separately.
+extension itself lives in `../docla-sankhacooray-mv3`.
 
-## What Doctor Lanka does
+## What DocLa does
 
-- **The whole week at a glance** — search a doctor and see every session across the
-  week in one calendar, instead of paging one day at a time.
-- **Compare doctors side by side** — add more than one doctor and find the times
-  they share a hospital and a day.
-- **Hide full sessions** — one toggle drops sold-out slots so what's left is bookable.
-- **Look up a booking** — paste a reference number or summary URL to pull the receipt.
-- **Pre-filled patient details** — name / NIC / mobile / email saved locally and
-  filled into the booking form.
-- **Official checkout** — you pick the slot here; payment finishes on echannelling.com.
+- **Search three ways** — hospital first, doctor first or specialty first; each
+  column narrows the other two. Favourites (star) stay on top.
+- **Three doctors, one week** — up to three doctors on one calendar, one colour
+  each, with your picked hospitals first and their others one tick away.
+- **Common time finder** — slots where every picked doctor sits at the same
+  hospital on the same day.
+- **My appointments** — bookings saved from the confirmation page or a lookup,
+  with receipt and official PDF.
+- **Patients** — several saved patients; the default one is filled into the
+  booking form, others one click away.
+- **Look up a booking**, **live connection check**, and **official checkout**.
 
 ## Install
 
-Doctor Lanka is distributed as an unpacked Chrome extension.
-
-1. **Unzip** the `doctor-lanka.zip` you were sent — you'll get a `doctor-lanka` folder.
-   Move it somewhere permanent (e.g. Documents) and don't delete it.
-2. Open Chrome and go to `chrome://extensions`.
-3. Turn **on** *Developer mode* (top-right).
-4. Click **Load unpacked** and choose the `doctor-lanka` folder.
-5. Pin it (🧩 → 📌) and click the toolbar icon to open the calendar.
-
+From the [Chrome Web Store](https://chromewebstore.google.com/detail/mffhilimciffjoeghenlopeehocimanh).
 No account and no configuration needed. Payment always happens on echannelling.com.
+
+## Share image
+
+`assets/og-image.png` is rendered from `og/og.html` at 1200×630 with headless
+Chrome. After changing it, bump `?v=N` on `og:image` / `twitter:image` in
+`index.html` so WhatsApp and others refetch.
 
 ## Develop / preview
 
@@ -55,5 +55,5 @@ is retired.)
 
 ## Not affiliated
 
-Doctor Lanka is an independent helper for the public eChannelling website and is
+DocLa is an independent helper for the public eChannelling website and is
 not affiliated with, endorsed by, or operated by eChannelling PLC.

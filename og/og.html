@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- Source for assets/og-image.png (1200×630). Render with headless Chrome at
+     1200×630 and bump ?v=N on og:image in index.html after any change. -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>DocLa share card</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{
+    font-family:Inter,system-ui,sans-serif;color:#eef2fb;
+    background:
+      radial-gradient(700px 420px at 0% 0%, rgba(122,162,255,.22), transparent 60%),
+      radial-gradient(700px 480px at 100% 100%, rgba(92,210,193,.18), transparent 60%),
+      #0b1020;
+    display:grid;grid-template-columns:470px 1fr;gap:34px;padding:56px 0 56px 64px;
+  }
+  .left{display:flex;flex-direction:column;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:16px;font-size:34px;font-weight:800;letter-spacing:-.02em}
+  .brand img{width:64px;height:64px;border-radius:16px}
+  h1{font-size:62px;line-height:1.04;font-weight:800;letter-spacing:-.035em}
+  h1 span{display:block;background:linear-gradient(120deg,#7aa2ff,#5cd2c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:24px;color:#a7b0cc;font-weight:500;line-height:1.35;margin-top:18px}
+  .foot{font-size:20px;color:#7f89a8;font-weight:600}
+  .foot b{color:#5cd2c1}
+
+  .ui{position:relative}
+  .card{
+    position:absolute;border-radius:22px;border:1px solid rgba(255,255,255,.14);
+    background:linear-gradient(180deg,#121a33,#0d1328);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.8);
+  }
+  .search{left:0;top:0;width:700px;padding:18px}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .col{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;background:rgba(255,255,255,.02)}
+  .hd{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+  .hd .i{width:32px;height:32px;border-radius:9px;background:rgba(122,162,255,.16);display:grid;place-items:center;color:#7aa2ff}
+  .hd b{font-size:17px}
+  .row{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;padding:7px 8px;border-radius:9px;white-space:nowrap;overflow:hidden}
+  .row .cb{width:14px;height:14px;border-radius:4px;border:2px solid #7f89a8;flex:none}
+  .row.on{background:rgba(122,162,255,.14)}
+  .row.on .cb{background:#7aa2ff;border-color:#7aa2ff}
+  .row.dim{color:#a7b0cc}
+
+  .cal{left:150px;top:268px;width:560px;padding:16px 18px}
+  .tabs{display:flex;gap:8px;margin-bottom:12px}
+  .tab{font-size:13px;font-weight:800;padding:6px 11px;border-radius:9px;border:2px solid;white-space:nowrap}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .day{font-size:13px;font-weight:800;color:#7f89a8;text-align:center;letter-spacing:.06em}
+  .chip{font-size:13px;font-weight:700;padding:6px 0;border-radius:8px;border:2px solid;text-align:center;background:rgba(255,255,255,.03)}
+  .o{border-color:#fb923c}.b{border-color:#38bdf8}.g{border-color:#4ade80}
+  .e{border-color:transparent;background:transparent}
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="brand"><img src="../assets/logo.svg" alt="" />DocLa</div>
+    <div>
+      <h1>Find your doctor <span>three ways.</span></h1>
+      <p class="sub">Hospital, doctor or specialty — then their whole week on one calendar.</p>
+    </div>
+    <div class="foot">Free Chrome extension · <b>pay on the official site</b></div>
+  </div>
+
+  <div class="ui">
+    <div class="card search">
+      <div class="cols">
+        <div class="col">
+          <div class="hd"><span class="i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 21V7l8-4 8 4v14" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 9v6M9 12h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><b>Hospital</b></div>
+          <div class="row on"><span class="cb"></span>Nawaloka</div>
+          <div class="row"><span class="cb"></span>Durdans</div>
+          <div class="row dim"><span class="cb"></span>Asiri Central</div>
+        </div>
+        <div class="col">
+          <div class="hd"><span class="i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2.2"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><b>Doctor</b></div>
+          <div class="row on"><span class="cb"></span>Dr Perera</div>
+          <div class="row on"><span class="cb"></span>Dr de Silva</div>
+          <div class="row on"><span class="cb"></span>Dr Fernando</div>
+        </div>
+        <div class="col">
+          <div class="hd"><span class="i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 3v6a5 5 0 0 0 10 0V3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M11 14v2a4 4 0 0 0 8 0v-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="2.2"/></svg></span><b>Specialty</b></div>
+          <div class="row on"><span class="cb"></span>Cardiologist</div>
+          <div class="row"><span class="cb"></span>Surgeon</div>
+          <div class="row dim"><span class="cb"></span>Physician</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card cal">
+      <div class="tabs">
+        <span class="tab o">DR PERERA</span><span class="tab b">DR DE SILVA</span><span class="tab g">DR FERNANDO</span>
+      </div>
+      <div class="grid">
+        <div class="day">WED</div><div class="day">THU</div><div class="day">FRI</div><div class="day">SAT</div><div class="day">SUN</div>
+        <div class="chip g">7:00</div><div class="chip o">9:00</div><div class="chip b">7:00</div><div class="chip o">9:00</div><div class="chip b">9:00</div>
+        <div class="chip b">3:00</div><div class="chip o">11:00</div><div class="chip g">3:00</div><div class="chip g">12:00</div><div class="chip g">10:00</div>
+        <div class="chip g">6:00</div><div class="chip b">6:00</div><div class="chip g">9:00</div><div class="chip b">4:00</div><div class="chip b">8:00</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

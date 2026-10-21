@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-<title>Privacy Policy — Doctor Lanka</title>
-<meta name="description" content="Privacy policy for the Doctor Lanka Chrome extension. Doctor Lanka runs entirely in your browser, stores your details only on your device, and collects no data." />
+<title>Privacy Policy — DocLa</title>
+<meta name="description" content="Privacy policy for the DocLa Chrome extension (formerly Doctor Lanka). DocLa runs entirely in your browser, stores your details only on your device, and collects no data." />
 <link rel="canonical" href="https://docla.sankhacooray.com/privacy" />
 <meta name="robots" content="index,follow" />
 
@@ -131,8 +131,8 @@
 <header class="nav">
   <div class="nav-in">
     <a class="brand" href="/">
-      <img src="assets/logo.svg" alt="Doctor Lanka logo" />
-      <span>Doctor&nbsp;Lanka</span>
+      <img src="assets/logo.svg" alt="DocLa logo" />
+      <span>DocLa</span>
     </a>
     <a class="back" href="/">← Back to site</a>
   </div>
@@ -141,10 +141,10 @@
 <main>
   <span class="eyebrow">Privacy</span>
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: 10 September 2026</p>
+  <p class="updated">Last updated: 21 October 2026</p>
 
   <div class="tldr">
-    <b>In one line:</b> Doctor Lanka runs entirely in your browser. It has no account,
+    <b>In one line:</b> DocLa runs entirely in your browser. It has no account,
     no server, and no analytics. Your details stay on your device and are sent only to
     the official eChannelling booking site when you choose to book — exactly as if you
     had typed them there yourself.
@@ -152,8 +152,8 @@
 
   <h2>Who this policy is for</h2>
   <p>
-    This policy covers the <strong>Doctor Lanka</strong> Chrome extension (the “extension”),
-    published by <strong>BSC Extensions</strong>. Doctor Lanka is an independent companion
+    This policy covers the <strong>DocLa</strong> Chrome extension (formerly “Doctor Lanka”; the “extension”),
+    published by <strong>BSC Extensions</strong>. DocLa is an independent companion
     tool that provides a faster weekly-calendar view over Sri Lanka's public
     doctor-channelling service (<a href="https://www.echannelling.com" rel="noopener">echannelling.com</a>).
     It is not affiliated with, endorsed by, or operated by any booking provider.
@@ -161,19 +161,32 @@
 
   <h2>What data the extension handles</h2>
   <p>
-    To pre-fill the booking form for you, the extension can store the patient details you
-    enter into it:
+    To pre-fill the booking form for you, the extension can store the details of one or
+    more patients you enter into it (for example, family members):
   </p>
   <ul>
-    <li>Patient name</li>
-    <li>NIC (National Identity Card) number</li>
+    <li>Title and patient name</li>
+    <li>NIC (National Identity Card) or passport number</li>
     <li>Mobile number</li>
-    <li>Email address</li>
-    <li>Your own preferences and settings for the calendar view</li>
+    <li>Email address and area</li>
   </ul>
   <p>
-    You enter these yourself, and only if you want the booking form pre-filled. The
-    extension does not read, collect, or infer any other personal information.
+    It also keeps, on your device:
+  </p>
+  <ul>
+    <li>
+      <strong>My appointments</strong> — when eChannelling shows its confirmation page after you
+      pay, or when you look a booking up by its reference, the extension saves that booking's
+      details (reference number, doctor, hospital, date and time, appointment number, patient
+      name and amount paid) so you can find the receipt later. You can remove any saved
+      booking, or import past ones yourself.
+    </li>
+    <li><strong>Favourites</strong> — the hospitals, doctors and specialties you star.</li>
+    <li>Your own preferences and settings for the calendar view.</li>
+  </ul>
+  <p>
+    You enter or trigger all of this yourself. The extension does not read, collect, or infer
+    any other personal information.
   </p>
 
   <h2>Where your data is stored</h2>
@@ -202,13 +215,19 @@
     </li>
   </ul>
   <p>
+    <strong>Connection check:</strong> to show whether you're online, the extension
+    periodically requests Google's standard connectivity-check address
+    (<code>https://www.gstatic.com/generate_204</code>). That request carries no personal data
+    and nothing is sent in it; it only tells the extension whether the internet is reachable.
+  </p>
+  <p>
     We do not sell, rent, or share your data with any other party, and we run no third-party
     analytics, advertising, or tracking of any kind.
   </p>
 
   <h2>Browser permissions we request, and why</h2>
   <ul>
-    <li><code>storage</code> — to keep your patient details and settings on your device.</li>
+    <li><code>storage</code> — to keep your patients, saved bookings and settings on your device.</li>
     <li><code>tabs</code> — to open the calendar and hand your chosen slot to your eChannelling tab.</li>
     <li>
       <code>declarativeNetRequest</code> — to add the <code>Origin</code>/<code>Referer</code>
@@ -217,7 +236,8 @@
     </li>
     <li>
       Access to <code>echannelling.com</code> and its public API gateway — to read the public
-      session data and seed the slot you pick into the site's checkout.
+      session data, seed the slot you pick into the site's checkout, fill in the patient
+      form, and save your booking from the site's confirmation page.
     </li>
   </ul>
 
@@ -231,7 +251,7 @@
 
   <h2>Children</h2>
   <p>
-    Doctor Lanka is a general-purpose booking helper and is not directed at children. It
+    DocLa is a general-purpose booking helper and is not directed at children. It
     collects no data centrally and stores only what an adult enters to book an appointment.
   </p>
 
@@ -248,7 +268,7 @@
   </p>
 
   <div class="foot">
-    Doctor Lanka is an independent companion tool for the public eChannelling service. It is
+    DocLa is an independent companion tool for the public eChannelling service. It is
     not affiliated with, endorsed by, or operated by eChannelling PLC. All appointments and
     payments complete on the provider's own official site.
   </div>

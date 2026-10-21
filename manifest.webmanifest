@@ -1,18 +1,19 @@
 {
-  "name": "Doctor Lanka — faster doctor booking",
-  "short_name": "Doctor Lanka",
-  "description": "A companion Chrome extension that puts a fast weekly calendar over Sri Lanka's doctor-channelling. Compare doctors, hospitals and times at a glance, then check out on the official site. Invitation only.",
-  "start_url": "/doctor-lanka-web/",
-  "scope": "/doctor-lanka-web/",
+  "id": "/",
+  "name": "DocLa — find and book Sri Lankan doctors",
+  "short_name": "DocLa",
+  "description": "A free Chrome extension for doctor channelling in Sri Lanka: search by hospital, doctor or specialty, compare a week of sessions, then pay on the official site.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
   "theme_color": "#0b1020",
   "background_color": "#0b1020",
   "lang": "en",
   "categories": ["health", "medical", "productivity"],
   "icons": [
-    { "src": "assets/logo.svg",         "sizes": "any",     "type": "image/svg+xml" },
-    { "src": "assets/icon-192.png",     "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "assets/icon-512.png",     "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "assets/logo.svg",              "sizes": "any",     "type": "image/svg+xml" },
+    { "src": "assets/icon-192.png",          "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png",          "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
