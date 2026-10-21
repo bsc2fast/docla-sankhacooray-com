@@ -303,7 +303,24 @@
   .foot-in nav{display:flex;flex-wrap:wrap;gap:18px}
   .foot-in a{color:var(--muted);text-decoration:none}
   .foot-in a:hover{color:var(--ink)}
-  .disc{margin:12px 0 0;max-width:80ch;color:var(--muted-2);font-size:12px;line-height:1.5}
+  /* one-line footer; the full disclaimer sits behind ⓘ */
+  .foot-note{position:relative;display:inline-flex;align-items:center;gap:6px;color:var(--muted-2)}
+  .info{
+    width:22px;height:22px;border-radius:50%;border:0;padding:0;cursor:pointer;display:grid;place-items:center;
+    background:var(--surface-2);color:var(--muted);transition:background .18s ease,color .18s ease
+  }
+  .info:hover,.info[aria-expanded="true"]{background:rgba(30,136,229,.2);color:var(--ink)}
+  .disc{
+    position:absolute;bottom:calc(100% + 12px);left:50%;width:min(440px,calc(100vw - 32px));
+    transform:translateX(-50%);z-index:20;margin:0;padding:14px 16px;border-radius:14px;
+    background:rgba(20,26,46,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 20px 50px -20px rgba(0,0,0,.6), 0 0 0 1px var(--line);
+    color:var(--muted);font-size:13px;line-height:1.55;text-align:left;
+    opacity:0;visibility:hidden;transition:opacity .2s ease,visibility 0s linear .2s
+  }
+  .disc.open{opacity:1;visibility:visible;transition:opacity .2s ease,visibility 0s}
+  :root[data-theme="light"] .disc{background:rgba(255,255,255,.9)}
+  @media(max-width:760px){.foot-in{justify-content:center;text-align:center}.disc{position:fixed;left:16px;right:16px;bottom:110px;width:auto;transform:none}}
 
   /* ================= LIGHT THEME ================= */
   :root[data-theme="light"]{
@@ -567,6 +584,12 @@
             <img src="assets/logo.svg" alt="" width="24" height="24" style="width:24px;height:24px;border-radius:6px" />
             <span>DocLa</span>
           </a>
+          <span class="foot-note">© 2026 · Not affiliated with any booking provider
+            <button class="info" id="discBtn" type="button" aria-label="About DocLa — disclaimer" aria-expanded="false" aria-controls="disc">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="7" r="1.6" fill="currentColor"/><path d="M12 11v7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+            </button>
+            <span class="disc" id="disc" role="tooltip">DocLa (formerly Doctor Lanka) is an independent companion tool — a faster interface over Sri Lanka's public doctor-channelling service. It is not affiliated with, endorsed by, or operated by any booking provider; all appointments and payments complete on the provider's own official site. In limited early release.</span>
+          </span>
           <nav aria-label="Footer">
             <a href="#search">Search</a>
             <a href="#screens">Screens</a>
@@ -574,7 +597,6 @@
             <a href="/privacy">Privacy Policy</a>
           </nav>
         </div>
-        <p class="disc">DocLa (formerly Doctor Lanka) is an independent companion tool — a faster interface over Sri Lanka's public doctor-channelling service. It is not affiliated with, endorsed by, or operated by any booking provider; all appointments and payments complete on the provider's own official site. In limited early release.</p>
       </footer>
     </div>
   </section>
@@ -643,6 +665,21 @@
     carousel.addEventListener("mouseleave", restart);
     document.addEventListener("visibilitychange", function () { if (document.hidden) { if (timer) clearInterval(timer); } else { restart(); } });
     show(); restart();
+  })();
+
+  /* ---- footer ⓘ: opens on click/hover, closes on outside click or Esc ---- */
+  (function () {
+    var btn = document.getElementById("discBtn"), box = document.getElementById("disc");
+    function set(open) { box.classList.toggle("open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+    var hoveredAt = 0;   /* a click right after hover-open keeps it open instead of toggling shut */
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      set(Date.now() - hoveredAt < 600 ? true : !box.classList.contains("open"));
+    });
+    btn.addEventListener("mouseenter", function () { if (!box.classList.contains("open")) hoveredAt = Date.now(); set(true); });
+    btn.parentElement.addEventListener("mouseleave", function () { set(false); });
+    document.addEventListener("click", function (e) { if (!box.contains(e.target)) set(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
   })();
 
   /* ---- theme toggle ---- */
