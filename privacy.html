@@ -141,11 +141,11 @@
 <main>
   <span class="eyebrow">Privacy</span>
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: 21 October 2026</p>
+  <p class="updated">Last updated: 11 November 2026</p>
 
   <div class="tldr">
     <b>In one line:</b> DocLa runs entirely in your browser. It has no account,
-    no server, and no analytics. Your details stay on your device and are sent only to
+    no server of ours, and no analytics. Your details stay on your device and are sent only to
     the official eChannelling booking site when you choose to book — exactly as if you
     had typed them there yourself.
   </div>
@@ -198,8 +198,9 @@
 
   <h2>What data is shared, and with whom</h2>
   <p>
-    The extension sends data to <strong>one place only</strong>: the official eChannelling
-    website and its own public API, and only for the actions you take.
+    By default the extension sends data to <strong>one place only</strong>: the official eChannelling
+    website and its own public API, and only for the actions you take. (The optional server
+    described below is off unless you set it up yourself.)
   </p>
   <ul>
     <li>
@@ -225,6 +226,22 @@
     analytics, advertising, or tracking of any kind.
   </p>
 
+  <h2>Optional: a directory server you run yourself (off by default)</h2>
+  <p>
+    Under Settings → Advanced there is an optional “Knowledge base” setting for people who run
+    their own directory server. It is <strong>off</strong> unless you type in a server address.
+    We do not provide or operate such a server, and DocLa never connects to one on its own.
+  </p>
+  <ul>
+    <li>If you enter an address, Chrome first asks you to allow access to that one site. Nothing
+      happens if you decline.</li>
+    <li>DocLa then downloads directory information from <em>your</em> server (for example doctor and
+      hospital details) and keeps a copy in <code>chrome.storage.local</code>. Its requests carry only
+      the access key you entered and the version of the copy you already have.</li>
+    <li>No patient details, bookings or other personal data of yours are ever sent to that server.</li>
+    <li>To turn it off, clear the address. The downloaded copy is deleted at the same time.</li>
+  </ul>
+
   <h2>Browser permissions we request, and why</h2>
   <ul>
     <li><code>storage</code> — to keep your patients, saved bookings and settings on your device.</li>
@@ -238,6 +255,11 @@
       Access to <code>echannelling.com</code> and its public API gateway — to read the public
       session data, seed the slot you pick into the site's checkout, fill in the patient
       form, and save your booking from the site's confirmation page.
+    </li>
+    <li>
+      <em>Optional</em> access to one more site (<code>https://</code>, <code>127.0.0.1</code> or
+      <code>localhost</code>) — requested only when you enter your own directory server address in
+      Settings, and only for that address. Not granted at install.
     </li>
   </ul>
 
